@@ -1,0 +1,26 @@
+DROP TABLE users;
+DROP TABLE countries;
+DROP TABLE cities;
+DROP TABLE favorites; 
+
+CREATE TABLE users (
+  user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
+  name varchar,
+  email varchar(16)
+);
+
+CREATE TABLE countries (
+  country_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
+  name varchar(1024),
+);
+
+CREATE TABLE cities (
+  city_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+  county UUID,
+);
+
+CREATE TABLE favorites (
+  user_id UUID,
+  country_id UUID,
+  city_id UUID
+);
