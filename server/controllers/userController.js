@@ -1,12 +1,8 @@
 const fetch = require('node-fetch');
 const superagent = require('superagent');
 const jwt = require('jsonwebtoken');
+const { client_id, client_secret, redirect_uri, mySecret } = require('../../secret');
 const db = require('../db');
-
-const client_id = '5358ef143b494a04a9234410230ddfc4';
-const client_secret = 'fa985254b6e04bb79f5d574955d47c83';
-const redirect_uri = 'http://localhost:8080/api/authorize';
-const mySecret = '088C7CA241814D8CF23B30B52222EAFADCDA0B7541CA60F432F7CE2894722CB8';
 
 const userController = {};
 
@@ -125,18 +121,6 @@ userController.create = async (req, res, next) => {
   } catch (err) {
     return next(err);
   }
-};
-const setState = (prevState) => {
-  const round = prevState.round + 1;
-  const deck = [...prevState.deck];
-  const players = [...prevState.players];
-  players.map((player) => {
-    const newHand = [...player.hand];
-    newHand.push(deck.pop());
-    return Object.assign(player, { hand: newHand });
-  });
-
-  return Object.assign(prevState, { deck, round, players });
 };
 
 module.exports = userController;
