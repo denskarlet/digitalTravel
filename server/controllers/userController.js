@@ -121,5 +121,21 @@ userController.create = async (req, res, next) => {
     return next(err);
   }
 };
+userController.getFavorites = async (req, res, next) => {
+  const { user_id } = res.locals.userData;
+  const query = `SELECT * FROM favorites WHERE user_id='${user_id}'`;
+  try {
+    const response = await db.query(query);
+    const favorites = response.rows[0];
+    if (!favorites) {
+      res.locals.userData.favorites = [];
+    } else {
+      res.locals.userData.favorites = favorites;
+    }
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
 
 module.exports = userController;

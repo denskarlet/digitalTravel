@@ -10,18 +10,13 @@ CREATE TABLE users (
   image_url varchar(1024)
 );
 
-CREATE TABLE countries (
-  country_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
-  name varchar(1024)
-);
-
-CREATE TABLE cities (
-  city_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  county UUID
+CREATE TABLE locations (
+  location_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
+  country_name varchar(1024),
+  city_name varchar(1024)
 );
 
 CREATE TABLE favorites (
   user_id UUID,
-  country_id UUID,
-  city_id UUID
+  location_id UUID
 );

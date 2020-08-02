@@ -39,9 +39,8 @@ locationController.getLocationData = async (req, res, next) => {
 locationController.parseData = (req, res, next) => {
   const { spotifyData, weatherData, countryData } = res.locals.locationData;
   const { country } = req.body;
-  const playlist = spotifyData.playlists.items.find(
-    (playlist) => playlist.name === `${country} Top 50`
-  ).tracks.href;
+  const playlist = spotifyData.playlists.items.find((item) => item.name === `${country} Top 50`)
+    .tracks.href;
   const weatherInfo = {
     weather: weatherData.weather[0].main,
     temp: weatherData.main.temp,
@@ -66,7 +65,6 @@ locationController.parseData = (req, res, next) => {
     flag,
     borders,
   } = countryObj;
-  console.log(country);
   const countryInfo = {
     name,
     alpha2Code,
@@ -85,5 +83,7 @@ locationController.parseData = (req, res, next) => {
   };
   return next();
 };
+locationController.find = (req, res, next) => {};
+locationController.create = (req, res, next) => {};
 
 module.exports = locationController;

@@ -3,6 +3,8 @@ const path = require('path');
 const cookieparser = require('cookie-parser');
 const userController = require('./controllers/userController');
 const locationController = require('./controllers/locationController');
+const favoritesController = require('./controllers/favoritesController');
+const apiRouter = require('./routers/apiRouter');
 
 const app = express();
 
@@ -23,24 +25,37 @@ if (process.env.NODE_ENV === 'production') {
 }
 app.get('/api/authenticate', userController.authenticate);
 app.get('/api/authorize', userController.authorize, (req, res) => res.redirect('/'));
-app.get(
-  '/api/user',
-  userController.verify,
-  userController.getUserData,
-  userController.find,
-  (req, res) => {
-    res.status(200).json(res.locals.userData);
-  }
-);
-app.get(
-  '/api/location',
-  userController.verify,
-  locationController.getLocationData,
-  locationController.parseData,
-  (req, res) => {
-    res.status(200).json({ ...res.locals.locationData });
-  }
-);
+// app.get(
+//   '/api/user',
+//   userController.verify,
+//   userController.getUserData,
+//   userController.find,
+//   userController.getFavorites,
+//   (req, res) => {
+//     res.status(200).json(res.locals.userData);
+//   }
+// );
+// app.get(
+//   '/api/location',
+//   userController.verify,
+//   locationController.getLocationData,
+//   locationController.parseData,
+//   (req, res) => {
+//     res.status(200).json({ ...res.locals.locationData });
+//   }
+// );
+// app.post(
+//   '/api/favorites',
+//   favoritesController.findOrCreate,
+//   favoritesController.addFavorite,
+//   (req, res) => {
+//     res.status(200).json(res.locals.favorite);
+//   }
+// );
+// app.delete('/api/favorites/:favorites_id', favoritesController.removeFavorite, (req, res) => {
+//   res.status(200).json('deleted:)');
+// });
+app.use('/api', apiRouter);
 
 // to post user
 // app.post('/api/user', useContext.verify, ouathController.create);
