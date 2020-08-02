@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cookieparser = require('cookie-parser');
 const userController = require('./controllers/userController');
+const locationController = require('./controllers/locationController');
 
 const app = express();
 
@@ -20,16 +21,27 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '../index.html'));
   });
 }
-// will send user to spotify
 app.get('/api/authenticate', userController.authenticate);
-// will catch user coming back from spotify
 app.get('/api/authorize', userController.authorize, (req, res) => res.redirect('/'));
-app.get('/api/location', userController.verify, (req, res) => {
-  res.status(200).send('YO WHATS UP GUCCI MAN');
-});
-app.get('/api/refresh', userController.refreshToken, (req, res) => {
-  res.status(200).send('YAO NEW TAKEN');
-});
+app.get(
+  '/api/user',
+  userController.verify,
+  userController.getUserData,
+  userController.find,
+  (req, res) => {
+    res.status(200).json(res.locals.userData);
+  }
+);
+app.get(
+  '/api/location',
+  userController.verify,
+  locationController.getLocationData,
+  locationController.parseData,
+  (req, res) => {
+    res.status(200).json({ ...res.locals.locationData });
+  }
+);
+
 // to post user
 // app.post('/api/user', useContext.verify, ouathController.create);
 // to get user info

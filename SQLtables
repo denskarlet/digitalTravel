@@ -5,18 +5,19 @@ DROP TABLE favorites;
 
 CREATE TABLE users (
   user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
-  name varchar,
-  email varchar(16)
+  name varchar(1024),
+  email varchar(1024),
+  image_url varchar(1024)
 );
 
 CREATE TABLE countries (
   country_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
-  name varchar(1024),
+  name varchar(1024)
 );
 
 CREATE TABLE cities (
   city_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
-  county UUID,
+  county UUID
 );
 
 CREATE TABLE favorites (
