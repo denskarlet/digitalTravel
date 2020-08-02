@@ -2,9 +2,7 @@ const fetch = require('node-fetch');
 const superagent = require('superagent');
 const jwt = require('jsonwebtoken');
 const db = require('../db');
-const { client_id, client_secret, redirect_uri, mySecret } = require('../../secret');
-
-const weatherKey = 'ef5a72eb1ec8207674c3479311844297';
+const { client_id, client_secret, redirect_uri, mySecret, weatherKey } = require('../../secret');
 
 const getWeatherUrl = (lat, lon) => {
   return `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${lon}&appid=${weatherKey}`;
