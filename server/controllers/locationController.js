@@ -83,7 +83,5 @@ locationController.parseData = (req, res, next) => {
   };
   return next();
 };
-locationController.find = (req, res, next) => {};
-locationController.create = (req, res, next) => {};
 
 module.exports = locationController;

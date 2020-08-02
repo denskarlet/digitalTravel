@@ -4,6 +4,7 @@ const db = require('../db');
 
 const favoritesController = {};
 
+// should prolly go to user controller
 favoritesController.addFavorite = async (req, res, next) => {
   const { user_id } = req.body;
   const { location_id } = res.locals.location;
@@ -17,6 +18,7 @@ favoritesController.addFavorite = async (req, res, next) => {
     return next(err);
   }
 };
+// should probably go to user controller
 favoritesController.removeFavorite = async (req, res, next) => {
   const { favorites_id } = req.params;
   const removeQuery = `DELETE FROM favorites WHERE favorite_id='${favorites_id}'`;
@@ -28,6 +30,7 @@ favoritesController.removeFavorite = async (req, res, next) => {
   }
 };
 
+// rename 
 favoritesController.findOrCreate = async (req, res, next) => {
   const { country, city } = req.body;
   try {

@@ -5,7 +5,7 @@ const { client_id, client_secret, redirect_uri, mySecret } = require('../../secr
 const db = require('../db');
 
 const userController = {};
-
+// think about having oauth controller separated
 userController.authenticate = (req, res, next) => {
   const scopes = 'user-read-private user-read-email';
   res.redirect(
