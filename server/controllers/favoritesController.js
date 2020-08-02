@@ -10,7 +10,7 @@ favoritesController.addFavorite = async (req, res, next) => {
   const { location_id } = res.locals.location;
   try {
     const query = `INSERT INTO favorites (user_id, location_id) VALUES ($1, $2) RETURNING *`;
-    const values = [`${user_id}`, `${location_id}`];
+    const values = [user_id, location_id];
     const response = await db.query(query, values);
     res.locals.favorite = response.rows[0].favorite_id;
     return next();
@@ -30,7 +30,7 @@ favoritesController.removeFavorite = async (req, res, next) => {
   }
 };
 
-// rename 
+// rename
 favoritesController.findOrCreate = async (req, res, next) => {
   const { country, city } = req.body;
   try {
@@ -39,7 +39,7 @@ favoritesController.findOrCreate = async (req, res, next) => {
     const result = findResponse.rows[0];
     if (!result) {
       const createQuery = `INSERT INTO locations (country_name, city_name) VALUES ($1, $2) RETURNING*`;
-      const values = [`${country}`, `${city}`];
+      const values = [country, city];
       const createResponse = await db.query(createQuery, values);
       res.locals.location = createResponse.rows[0];
     } else {
