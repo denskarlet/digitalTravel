@@ -2,6 +2,14 @@ const fetch = require('node-fetch');
 const superagent = require('superagent');
 const jwt = require('jsonwebtoken');
 const { client_id, client_secret, redirect_uri, mySecret } = require('../../secret');
+const {
+  fetchUserData,
+  dbFindUser,
+  dbCreateUser,
+  dbGetFavorites,
+  dbAddFavorite,
+  dbRemoveFavorite,
+} = require('../util/userDbUtil');
 const db = require('../db');
 
 const userController = {};
@@ -63,26 +71,19 @@ userController.refreshToken = async (req, res, next) => {
 };
 
 userController.getUserData = async (req, res, next) => {
-  const encrypted = await jwt.verify(req.cookies.token, mySecret);
-  const { access_token } = encrypted;
-  fetch('https://api.spotify.com/v1/me', {
-    headers: { Authorization: `Bearer ${access_token}` },
-  })
-    .then((response) => response.json())
-    .then((data) => {
-      const { email, display_name } = data;
-      const imgUrl = data.images[0].url;
-      res.locals.userData = { email, name: display_name, imgUrl };
-      return next();
-    })
-    .catch((err) => {
-      return next(err);
-    });
+  try {
+    const encrypted = await jwt.verify(req.cookies.token, mySecret);
+    const { access_token } = encrypted;
+    res.locals.userData = await fetchUserData(access_token);
+    return next();
+  } catch (err) {
+    return next(err);
+  }
 };
 
 userController.verify = async (req, res, next) => {
-  const { token } = req.cookies;
   try {
+    const { token } = req.cookies;
     await jwt.verify(token, mySecret);
     return next();
   } catch (err) {
@@ -93,49 +94,59 @@ userController.verify = async (req, res, next) => {
   }
 };
 
-userController.find = async (req, res, next) => {
-  const { email } = res.locals.userData;
-  if (!email) return res.sendStatus(400);
-  const query = `SELECT * FROM users WHERE email='${email}'`;
+userController.findOrCreate = async (req, res, next) => {
   try {
-    const response = await db.query(query);
-    const user = response.rows[0];
-    if (!user) return userController.create(req, res, next);
+    const { name, email, imgUrl } = res.locals.userData;
+    let user = await dbFindUser(email);
+    if (!user) user = await dbCreateUser({ email, name, imgUrl });
     res.locals.userData = user;
     return next();
   } catch (err) {
     return next(err);
   }
 };
-userController.create = async (req, res, next) => {
-  const { name, email, imgUrl } = res.locals.userData;
-  if (!name || !email) return res.sendStatus(400);
-  const query = `INSERT INTO users (name, email, image_url) VALUES ($1, $2, $3) RETURNING *`;
-  const values = [`${name}`, `${email}`, `${imgUrl}`];
-  try {
-    const response = await db.query(query, values);
-    const user = response.rows[0];
-    res.locals.userData = user;
-    return next();
-  } catch (err) {
-    return next(err);
-  }
-};
+// userController.create = async (req, res, next) => {
+//   const { name, email, imgUrl } = res.locals.userData;
+//   if (!name || !email) return res.sendStatus(400);
+//   const query = `INSERT INTO users (name, email, image_url) VALUES ($1, $2, $3) RETURNING *`;
+//   const values = [name, email, imgUrl];
+//   try {
+//     const response = await db.query(query, values);
+//     const user = response.rows[0];
+//     res.locals.userData = user;
+//     return next();
+//   } catch (err) {
+//     return next(err);
+//   }
+// };
 userController.getFavorites = async (req, res, next) => {
-  const { user_id } = res.locals.userData;
-  const query = `SELECT * FROM favorites WHERE user_id='${user_id}'`;
   try {
-    const response = await db.query(query);
-    const favorites = response.rows[0];
-    if (!favorites) {
-      res.locals.userData.favorites = [];
-    } else {
-      res.locals.userData.favorites = favorites;
-    }
+    const { user_id } = res.locals.userData;
+    res.locals.userData.favorites = await dbGetFavorites(user_id);
     return next();
   } catch (err) {
     return next(err);
   }
 };
 
+userController.addFavorite = async (req, res, next) => {
+  try {
+    const { user_id } = req.body;
+    const { location_id } = res.locals;
+    res.locals.favorite = await dbAddFavorite({ user_id, location_id });
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
+// should probably go to user controller
+userController.removeFavorite = async (req, res, next) => {
+  try {
+    const { favorite_id } = req.params;
+    await dbRemoveFavorite(favorite_id);
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
 module.exports = userController;

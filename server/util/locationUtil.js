@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
+const db = require('../db');
 
 exports.fetchSpotifyApi = (countryCode, access_token) => {
   const url = `https://api.spotify.com/v1/browse/categories/toplists/playlists?country=${countryCode}`;
@@ -60,4 +61,15 @@ exports.parseCountryResponse = (obj) => {
     flag,
     borders,
   };
+};
+exports.dbFindLocation = async (city, country) => {
+  const query = `SELECT * FROM locations WHERE city_name='${city}' AND country_name='${country}'`;
+  const { rows } = await db.query(query);
+  return rows[0];
+};
+exports.dbCreateLocation = async (city, country) => {
+  const query = `INSERT INTO locations (country_name, city_name) VALUES ($1, $2) RETURNING*`;
+  const values = [country, city];
+  const { rows } = await db.query(query, values);
+  return rows[0];
 };

@@ -7,21 +7,20 @@ const router = express.Router();
 
 router.post(
   '/favorites',
-  favoritesController.findOrCreate,
-  favoritesController.addFavorite,
+  locationController.getLocationId,
+  userController.addFavorite,
   (req, res) => {
     res.status(200).json(res.locals.favorite);
   }
 );
-router.delete('/favorites/:favorites_id', favoritesController.removeFavorite, (req, res) => {
+router.delete('/favorites/:favorite_id', userController.removeFavorite, (req, res) => {
   res.sendStatus(200);
 });
-
 router.get(
   '/user',
   userController.verify,
   userController.getUserData,
-  userController.find,
+  userController.findOrCreate,
   userController.getFavorites,
   (req, res) => {
     res.status(200).json(res.locals.userData);

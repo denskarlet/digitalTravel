@@ -70,14 +70,15 @@ app.use('/api', apiRouter);
 
 // Error Handler
 app.use((err, req, res, next) => {
+  // console.log({ err });
   const defaultErr = {
     log: err,
     status: 400,
     message: { err: 'An error occurred' },
   };
   const errorObj = { ...defaultErr, ...err };
-  console.log(`MIDDLEWARE ERROR: ${errorObj.log}`);
-  res.status(errorObj.status).send(JSON.stringify(errorObj.log));
+  // console.log(`MIDDLEWARE ERROR: ${errorObj.log}`);
+  res.status(errorObj.status).send(JSON.stringify(errorObj.log.name));
 });
 
 module.exports = app.listen(PORT, () => console.log(`listening on port ${PORT}`));
