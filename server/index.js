@@ -70,15 +70,9 @@ app.use('/api', apiRouter);
 
 // Error Handler
 app.use((err, req, res, next) => {
-  // console.log({ err });
-  const defaultErr = {
-    log: err,
-    status: 400,
-    message: { err: 'An error occurred' },
-  };
-  const errorObj = { ...defaultErr, ...err };
-  // console.log(`MIDDLEWARE ERROR: ${errorObj.log}`);
-  res.status(errorObj.status).send(JSON.stringify(errorObj.log.name));
+  console.log(`MIDDLEWARE ERROR: ${err.message}`);
+  err.myMessage ? console.log(err.myMessage) : null;
+  res.status(err.status || 500).send(JSON.stringify(err.myMessage || 'Internal Server Error'));
 });
 
 module.exports = app.listen(PORT, () => console.log(`listening on port ${PORT}`));

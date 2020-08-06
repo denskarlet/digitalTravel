@@ -1,6 +1,8 @@
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
 const db = require('../db');
+const MyError = require('./myError');
+
 const { client_id, client_secret, redirect_uri, mySecret, weatherKey } = require('../../secret');
 const {
   fetchSpotifyApi,
@@ -49,7 +51,7 @@ locationController.parseData = (req, res, next) => {
 locationController.getLocationId = async (req, res, next) => {
   try {
     const { country, city } = req.body;
-    if (!country || !city) res.sendStatus(400);
+    if (!country || !city) throw new MyError(400, 'Ensure both city and country are provided');
     let { location_id } = await DB_findLocation(city, country);
     if (!location_id) location_id = await DB_createLocation(city, country);
     res.locals.location_id = location_id;
