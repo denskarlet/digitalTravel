@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const superagent = require('superagent');
 const jwt = require('jsonwebtoken');
-const { client_id, client_secret, redirect_uri, mySecret } = require('../..//secret');
+const { client_id, client_secret, redirect_uri, mySecret, linkToSpotify } = require('../../secret');
 const {
   fetchUserData,
   dbFindUser,
@@ -9,37 +9,23 @@ const {
   dbGetFavorites,
   dbAddFavorite,
   dbRemoveFavorite,
-} = require('../util/userDbUtil');
+  spotifyAuthorize,
+  setJswCookie,
+  calculateExpiration,
+} = require('../util/userUtil');
 const db = require('../db');
 
 const userController = {};
 // think about having oauth controller separated
-userController.authenticate = (req, res, next) => {
-  const scopes = 'user-read-private user-read-email';
-
-  res.redirect(
-    `https://accounts.spotify.com/authorize?response_type=code&client_id=${client_id}&scope=${scopes}&redirect_uri=${redirect_uri}`
-  );
+userController.redirectToSpotify = (req, res, next) => {
+  return res.redirect(linkToSpotify);
 };
 userController.authorize = async (req, res, next) => {
-  const body = {
-    client_id,
-    client_secret,
-    grant_type: 'authorization_code',
-    code: req.query.code,
-    redirect_uri,
-  };
   try {
-    const response = await superagent
-      .post('https://accounts.spotify.com/api/token')
-      .send(body)
-      .set('Content-Type', 'application/x-www-form-urlencoded');
-    const { access_token, refresh_token } = response.body;
-    const exp = Math.floor(Date.now() / 1000);
-    const token = jwt.sign({ access_token, exp }, mySecret);
-    const refresh = jwt.sign({ refresh_token }, mySecret);
-    res.cookie('token', token);
-    res.cookie('refresh', refresh, { httpOnly: true });
+    const { access_token, refresh_token } = await spotifyAuthorize(req.query.code);
+    const exp = Math.floor(Date.now() / 1000) + 60 * 60;
+    res.cookie('token', jwt.sign({ access_token, exp }, mySecret));
+    res.cookie('refresh', jwt.sign({ refresh_token }, mySecret), { httpOnly: true });
     return next();
   } catch (err) {
     return next(err);

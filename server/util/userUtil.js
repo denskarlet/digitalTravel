@@ -1,5 +1,7 @@
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
+const { client_id, client_secret, redirect_uri, mySecret, linkToSpotify } = require('../../secret');
+
 const db = require('../db');
 const MyError = require('./myError');
 
@@ -63,4 +65,19 @@ exports.fetchUserData = async (access_token) => {
   } catch (err) {
     throw new MyError(500, err.message);
   }
+};
+exports.spotifyAuthorize = async (code) => {
+  return fetch(
+    `https://accounts.spotify.com/api/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}`,
+    {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    }
+  ).then((res) => res.json());
+};
+exports.calculateExpiration = () => {
+  return Math.floor(Date.now() / 1000) + 60 * 60;
 };

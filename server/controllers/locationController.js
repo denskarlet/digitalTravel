@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
 const db = require('../db');
-const MyError = require('./myError');
+const MyError = require('../util/myError');
 
 const { client_id, client_secret, redirect_uri, mySecret, weatherKey } = require('../../secret');
 const {
@@ -19,6 +19,8 @@ const locationController = {};
 
 locationController.getLocationData = async (req, res, next) => {
   const { lat, lon, country, city } = req.query;
+  if (!lat || !lon || !country || !city)
+    throw new MyError(400, 'Ensure all the query parameters are provided');
   const [weatherData, [countryData]] = await Promise.all([
     fetchWeatherApi(lat, lon, weatherKey),
     fetchCountryApi(country),

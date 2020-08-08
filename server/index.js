@@ -23,7 +23,7 @@ if (process.env.NODE_ENV === 'production') {
     res.sendFile(path.join(__dirname, '../index.html'));
   });
 }
-app.get('/api/authenticate', userController.authenticate);
+app.get('/api/authenticate', userController.redirectToSpotify);
 app.get('/api/authorize', userController.authorize, (req, res) => res.redirect('/'));
 // app.get(
 //   '/api/user',
