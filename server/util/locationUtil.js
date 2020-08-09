@@ -31,7 +31,11 @@ exports.fetchCountryApi = (country) => {
   }
 };
 exports.parseSpotifyResponse = (obj, country) => {
-  return obj.playlists.items.find((item) => item.name === `${country} Top 50`).tracks.href;
+  try {
+    return obj.playlists.items.find((item) => item.name === `${country} Top 50`).tracks.href;
+  } catch (err) {
+    return undefined;
+  }
 };
 exports.parseWeatherResponse = (obj) => {
   return {
@@ -79,6 +83,7 @@ exports.dbFindLocation = async (city, country) => {
   try {
     const query = `SELECT * FROM locations WHERE city_name='${city}' AND country_name='${country}'`;
     const { rows } = await db.query(query);
+    if (!rows.length) return {};
     return rows[0];
   } catch (err) {
     throw new MyError(500, err.message);
@@ -87,10 +92,12 @@ exports.dbFindLocation = async (city, country) => {
 exports.dbCreateLocation = async (city, country) => {
   try {
     const query = `INSERT INTO locations (country_name, city_name) VALUES ($1, $2) RETURNING*`;
+    console.log(country, city);
     const values = [country, city];
     const { rows } = await db.query(query, values);
     return rows[0];
   } catch (err) {
+    console.log({ err });
     throw new MyError(500, err.message);
   }
 };

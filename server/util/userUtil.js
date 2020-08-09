@@ -36,6 +36,7 @@ exports.dbGetFavorites = async (user_id) => {
 exports.dbAddFavorite = async ({ location_id, user_id }) => {
   try {
     const query = `INSERT INTO favorites (user_id, location_id) VALUES ($1, $2) RETURNING *`;
+    console.log({ user_id, location_id });
     const values = [user_id, location_id];
     const { rows } = await db.query(query, values);
     return rows[0];
@@ -45,7 +46,7 @@ exports.dbAddFavorite = async ({ location_id, user_id }) => {
 };
 exports.dbRemoveFavorite = async (favorite_id) => {
   try {
-    const query = `DELETE FROM favorites WHERE favorite_id='${favorites_id}'`;
+    const query = `DELETE FROM favorites WHERE favorite_id='${favorite_id}'`;
     return db.query(query);
   } catch (err) {
     throw new MyError(500, err.message);

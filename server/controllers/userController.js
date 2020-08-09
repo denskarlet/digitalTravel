@@ -130,6 +130,7 @@ userController.addFavorite = async (req, res, next) => {
 userController.removeFavorite = async (req, res, next) => {
   try {
     const { favorite_id } = req.params;
+    console.log(favorite_id);
     await dbRemoveFavorite(favorite_id);
     return next();
   } catch (err) {
