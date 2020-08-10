@@ -92,12 +92,10 @@ exports.dbFindLocation = async (city, country) => {
 exports.dbCreateLocation = async (city, country) => {
   try {
     const query = `INSERT INTO locations (country_name, city_name) VALUES ($1, $2) RETURNING*`;
-    console.log(country, city);
     const values = [country, city];
     const { rows } = await db.query(query, values);
     return rows[0];
   } catch (err) {
-    console.log({ err });
     throw new MyError(500, err.message);
   }
 };

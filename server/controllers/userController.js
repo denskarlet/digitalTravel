@@ -12,18 +12,20 @@ const {
   spotifyAuthorize,
   setJswCookie,
   calculateExpiration,
+  spotifyGetRefreshToken,
 } = require('../util/userUtil');
+
 const db = require('../db');
 
 const userController = {};
-// think about having oauth controller separated
 userController.redirectToSpotify = (req, res, next) => {
   return res.redirect(linkToSpotify);
 };
+
 userController.authorize = async (req, res, next) => {
   try {
     const { access_token, refresh_token } = await spotifyAuthorize(req.query.code);
-    const exp = Math.floor(Date.now() / 1000) + 60 * 60;
+    const exp = calculateExpiration();
     res.cookie('token', jwt.sign({ access_token, exp }, mySecret));
     res.cookie('refresh', jwt.sign({ refresh_token }, mySecret), { httpOnly: true });
     return next();
@@ -36,21 +38,10 @@ userController.refreshToken = async (req, res, next) => {
   const { refresh } = req.cookies;
   if (!refresh) return res.sendStatus(400);
   try {
-    const encoded = jwt.verify(refresh, mySecret);
-    const body = {
-      client_id,
-      client_secret,
-      grant_type: 'refresh_token',
-      refresh_token: encoded.refresh_token,
-    };
-    const response = await superagent
-      .post('https://accounts.spotify.com/api/token')
-      .send(body)
-      .set('Content-Type', 'application/x-www-form-urlencoded');
-    const { access_token } = response.body;
-    const exp = Math.floor(Date.now() / 1000) + 60 * 60;
-    const token = jwt.sign({ access_token, exp }, mySecret);
-    res.cookie('token', token);
+    const { refresh_token } = jwt.verify(refresh, mySecret);
+    const { access_token } = await spotifyGetRefreshToken(refresh_token);
+    const exp = calculateExpiration();
+    res.cookie('token', jwt.sign({ access_token, exp }, mySecret));
     return next();
   } catch (err) {
     return next(err);
@@ -92,20 +83,7 @@ userController.findOrCreate = async (req, res, next) => {
     return next(err);
   }
 };
-// userController.create = async (req, res, next) => {
-//   const { name, email, imgUrl } = res.locals.userData;
-//   if (!name || !email) return res.sendStatus(400);
-//   const query = `INSERT INTO users (name, email, image_url) VALUES ($1, $2, $3) RETURNING *`;
-//   const values = [name, email, imgUrl];
-//   try {
-//     const response = await db.query(query, values);
-//     const user = response.rows[0];
-//     res.locals.userData = user;
-//     return next();
-//   } catch (err) {
-//     return next(err);
-//   }
-// };
+
 userController.getFavorites = async (req, res, next) => {
   try {
     const { user_id } = res.locals.userData;
@@ -126,11 +104,9 @@ userController.addFavorite = async (req, res, next) => {
     return next(err);
   }
 };
-// should probably go to user controller
 userController.removeFavorite = async (req, res, next) => {
   try {
     const { favorite_id } = req.params;
-    console.log(favorite_id);
     await dbRemoveFavorite(favorite_id);
     return next();
   } catch (err) {

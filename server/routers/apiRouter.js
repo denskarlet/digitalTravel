@@ -1,7 +1,6 @@
 const express = require('express');
 const locationController = require('../controllers/locationController');
 const userController = require('../controllers/userController');
-const favoritesController = require('../controllers/favoritesController');
 
 const router = express.Router();
 
@@ -35,5 +34,7 @@ router.get(
     res.status(200).json({ ...res.locals.locationData });
   }
 );
+router.get('/authenticate', userController.redirectToSpotify);
+router.get('/authorize', userController.authorize, (req, res) => res.redirect('/'));
 
 module.exports = router;
