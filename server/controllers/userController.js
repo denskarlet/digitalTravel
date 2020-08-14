@@ -13,11 +13,12 @@ const {
   setJswCookie,
   calculateExpiration,
   spotifyGetRefreshToken,
-} = require('../util/userUtil');
+} = require('../util/userHelper');
 
 const db = require('../db');
 
 const userController = {};
+
 userController.redirectToSpotify = (req, res, next) => {
   return res.redirect(linkToSpotify);
 };

@@ -13,7 +13,7 @@ const {
   parseSpotifyResponse,
   dbFindLocation,
   dbCreateLocation,
-} = require('../util/locationUtil');
+} = require('../util/locationHelper');
 
 const locationController = {};
 
@@ -21,7 +21,7 @@ locationController.getLocationData = async (req, res, next) => {
   try {
     const { lat, lon, country, city } = req.query;
     if (!lat || !lon || !country || !city)
-      throw new MyError(400, 'Ensure all the query parameters are provided');
+      throw new MyError(400, null, 'Ensure all the query parameters are provided');
 
     const [weatherData, [countryData]] = await Promise.all([
       fetchWeatherApi(lat, lon, weatherKey),

@@ -3,29 +3,32 @@ const jwt = require('jsonwebtoken');
 const db = require('../db');
 const MyError = require('./myError');
 
-exports.fetchSpotifyApi = (countryCode, access_token) => {
+exports.fetchSpotifyApi = async (countryCode, access_token) => {
   try {
     const url = `https://api.spotify.com/v1/browse/categories/toplists/playlists?country=${countryCode}`;
     const reqOptions = {
       headers: { Authorization: `Bearer ${access_token}` },
     };
-    return fetch(url, reqOptions).then((res) => res.json());
+    const response = await fetch(url, reqOptions);
+    return response.json();
   } catch (err) {
     throw new MyError(500, err.message);
   }
 };
-exports.fetchWeatherApi = (lat, lon, key) => {
+exports.fetchWeatherApi = async (lat, lon, key) => {
   try {
     const url = `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${lon}&appid=${key}`;
-    return fetch(url).then((res) => res.json());
+    const response = await fetch(url);
+    return response.json();
   } catch (err) {
     throw new MyError(500, err.message);
   }
 };
-exports.fetchCountryApi = (country) => {
+exports.fetchCountryApi = async (country) => {
   try {
     const url = `https://restcountries.eu/rest/v2/name/${country}`;
-    return fetch(url).then((res) => res.json());
+    const response = await fetch(url);
+    return response.json();
   } catch (err) {
     throw new MyError(500, err.message);
   }

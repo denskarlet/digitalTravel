@@ -1,6 +1,15 @@
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
-const { client_id, client_secret, redirect_uri, mySecret, linkToSpotify } = require('../../secret');
+const queryString = require('query-string');
+
+const {
+  client_id,
+  client_secret,
+  redirect_uri,
+  mySecret,
+  linkToSpotify,
+  grant_type,
+} = require('../../secret');
 
 const db = require('../db');
 const MyError = require('./myError');
@@ -54,46 +63,46 @@ exports.dbRemoveFavorite = async (favorite_id) => {
 };
 exports.fetchUserData = async (access_token) => {
   try {
-    return fetch('https://api.spotify.com/v1/me', {
+    const response = await fetch('https://api.spotify.com/v1/me', {
       headers: { Authorization: `Bearer ${access_token}` },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const { email, display_name } = data;
-        const imgUrl = data.images[0].url;
-        return { email, name: display_name, imgUrl };
-      });
+    });
+    const data = await response.json();
+    const { email, display_name } = data;
+    const imgUrl = data.images[0].url;
+    return { email, name: display_name, imgUrl };
   } catch (err) {
     throw new MyError(500, err.message);
   }
 };
 exports.spotifyAuthorize = async (code) => {
-  return fetch(
-    `https://accounts.spotify.com/api/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=authorization_code&code=${code}&redirect_uri=${redirect_uri}`,
-    {
+  try {
+    const params = queryString.stringify({ client_id, client_secret, code, redirect_uri });
+    const response = await fetch(`https://accounts.spotify.com/api/token?${params}`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/x-www-form-urlencoded',
       },
-    }
-  ).then((res) => res.json());
+    });
+    return response.json();
+  } catch (err) {
+    throw new MyError(500, err.message);
+  }
 };
 exports.calculateExpiration = () => {
   return Math.floor(Date.now() / 1000) + 60 * 60;
 };
-exports.spotifyGetRefreshToken = async (token) => {
+exports.spotifyGetRefreshToken = async (refresh_token) => {
   try {
-    return fetch(
-      `https://accounts.spotify.com/api/token?client_id=${client_id}&client_secret=${client_secret}&grant_type=refresh_token&refresh_token=${token}`,
-      {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      }
-    ).then((res) => res.json());
+    const params = queryString.stringify({ client_id, client_secret, refresh_token });
+    const response = await fetch(`https://accounts.spotify.com/api/token?${params}`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+    return response.json();
   } catch (err) {
     throw new MyError(500, err.message);
   }
