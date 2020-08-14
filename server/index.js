@@ -13,6 +13,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
 
+app.use((req, res, next) => {
+  console.log('req');
+  return next();
+});
 if (process.env.NODE_ENV === 'production') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
   app.use('/', (req, res) => {

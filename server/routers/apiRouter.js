@@ -25,6 +25,9 @@ router.get(
     res.status(200).json(res.locals.userData);
   }
 );
+router.get('/verify', userController.verify, (req, res) => {
+  res.sendStatus(200);
+});
 router.get(
   '/location',
   userController.verify,
