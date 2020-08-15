@@ -5,7 +5,6 @@ import UserContext from './UserContext';
 
 const UserProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(!!Cookies.get('token'));
-  console.log(isLogged);
   // useEffect(() => {
   //   if (!isLogged) {
   //     fetch('/api/verify').then((res) => {
