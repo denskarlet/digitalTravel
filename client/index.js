@@ -1,6 +1,8 @@
-import React from 'react';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import styled from 'styled-components';
+import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
+import UserProvider from './UserProvider';
 import App from './App.jsx';
 
 if (module && module.hot) {
@@ -8,8 +10,10 @@ if (module && module.hot) {
 }
 
 render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Router>
+    <UserProvider>
+      <App />
+    </UserProvider>
+  </Router>,
   document.getElementById('root')
 );

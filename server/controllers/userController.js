@@ -27,8 +27,11 @@ userController.authorize = async (req, res, next) => {
   try {
     const { access_token, refresh_token } = await spotifyAuthorize(req.query.code);
     const exp = calculateExpiration();
-    res.cookie('token', jwt.sign({ access_token, exp }, mySecret));
-    res.cookie('refresh', jwt.sign({ refresh_token }, mySecret), { httpOnly: true });
+    res.cookie('token', jwt.sign({ access_token, exp }, mySecret), { sameSite: 'Strict' });
+    res.cookie('refresh', jwt.sign({ refresh_token }, mySecret), {
+      httpOnly: true,
+      sameSite: 'Strict',
+    });
     return next();
   } catch (err) {
     return next(err);
@@ -42,7 +45,7 @@ userController.refreshToken = async (req, res, next) => {
     const { refresh_token } = jwt.verify(refresh, mySecret);
     const { access_token } = await spotifyGetRefreshToken(refresh_token);
     const exp = calculateExpiration();
-    res.cookie('token', jwt.sign({ access_token, exp }, mySecret));
+    res.cookie('token', jwt.sign({ access_token, exp }, mySecret), { sameSite: 'Strict' });
     return next();
   } catch (err) {
     return next(err);
@@ -52,8 +55,6 @@ userController.refreshToken = async (req, res, next) => {
 userController.getUserData = async (req, res, next) => {
   try {
     const encrypted = jwt.verify(req.cookies.token, mySecret);
-    const s = 4;
-    const string = '123';
     const { access_token } = encrypted;
     res.locals.userData = await fetchUserData(access_token);
     return next();
@@ -63,7 +64,6 @@ userController.getUserData = async (req, res, next) => {
 };
 
 userController.verify = async (req, res, next) => {
-  console.log('in verify');
   try {
     const { token } = req.cookies;
     jwt.verify(token, mySecret);

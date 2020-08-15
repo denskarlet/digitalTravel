@@ -45,7 +45,6 @@ exports.dbGetFavorites = async (user_id) => {
 exports.dbAddFavorite = async ({ location_id, user_id }) => {
   try {
     const query = `INSERT INTO favorites (user_id, location_id) VALUES ($1, $2) RETURNING *`;
-    console.log({ user_id, location_id });
     const values = [user_id, location_id];
     const { rows } = await db.query(query, values);
     return rows[0];
@@ -76,7 +75,13 @@ exports.fetchUserData = async (access_token) => {
 };
 exports.spotifyAuthorize = async (code) => {
   try {
-    const params = queryString.stringify({ client_id, client_secret, code, redirect_uri });
+    const params = queryString.stringify({
+      client_id,
+      client_secret,
+      code,
+      redirect_uri,
+      grant_type,
+    });
     const response = await fetch(`https://accounts.spotify.com/api/token?${params}`, {
       method: 'POST',
       headers: {
