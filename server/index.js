@@ -21,15 +21,14 @@ const PORT = 3000;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieparser());
+app.use('/api', apiRouter);
 
 if (process.env.NODE_ENV === 'production') {
   app.use('/build', express.static(path.join(__dirname, '../build')));
-  app.use('/', (req, res) => {
+  app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, '../index.html'));
   });
 }
-
-app.use('/api', apiRouter);
 
 // Error Handler
 app.use((err, req, res, next) => {

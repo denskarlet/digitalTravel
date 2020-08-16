@@ -52,7 +52,6 @@ userController.refreshToken = async (req, res, next) => {
 userController.getUserData = async (req, res, next) => {
   try {
     const encrypted = jwt.verify(req.cookies.token, mySecret);
-    console.log({ encrypted });
     const { access_token } = encrypted;
     res.locals.userData = await fetchUserData(access_token);
     return next();
