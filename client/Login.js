@@ -1,10 +1,9 @@
 import React, { useContext } from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import UserContext from './UserContext';
 
 const Login = () => {
-  const { isLogged, setIsLogged } = useContext(UserContext);
-  const history = useHistory();
+  const { isLogged } = useContext(UserContext);
   if (isLogged) return <Redirect to="/" />;
 
   const handleClick = () => {

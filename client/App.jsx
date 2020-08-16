@@ -8,7 +8,7 @@ import PrivateRoute from './ProtectedRoute';
 const App = () => {
   return (
     <Switch>
-      <PrivateRoute exact path="/" component={Home} />
+      <PrivateRoute exact path="/" component={Home} redirect="/login" />
       <Route exact path="/login" component={Login} />
     </Switch>
   );
