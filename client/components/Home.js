@@ -2,17 +2,15 @@ import React, { useState, useContext, useReducer, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 
 import UserContext from '../UserContext';
-import Input from './Input';
 import useFetch from '../useFetch';
-
+import Input from './Input';
 const Home = () => {
-  const [response, loading, error] = useFetch('/api/user');
-  if (loading) return <div>Loading...</div>;
+  const { userData } = useContext(UserContext);
   return (
     <div>
       WELCOME
-      {response && <img alt="" src={response.image_url} />}
-      <pre>{JSON.stringify(response, null, 2)}</pre>
+      {userData && <img alt="" src={userData.image_url} />}
+      {userData && <pre>{JSON.stringify(userData, null, 2)}</pre>}
       <Input />
     </div>
   );
