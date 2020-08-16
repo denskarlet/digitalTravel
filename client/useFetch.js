@@ -4,6 +4,7 @@ import { LOADING, RESPONSE_COMPLETE, ERROR } from './actions/actions';
 
 const useFetch = (url) => {
   const [state, dispatch] = useReducer(fetchReducer, initialState);
+
   useEffect(() => {
     dispatch({ type: LOADING });
     fetch(url)
@@ -11,6 +12,7 @@ const useFetch = (url) => {
       .then((data) => dispatch({ type: RESPONSE_COMPLETE, payload: { data } }))
       .catch((err) => dispatch({ type: ERROR, payload: { err } }));
   }, []);
+
   const { response, loading, error } = state;
   return [response, loading, error];
 };

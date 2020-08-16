@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Redirect } from 'react-router-dom';
-import UserContext from './UserContext';
+import UserContext from '../UserContext';
 
 const Login = () => {
   const { isLogged } = useContext(UserContext);
