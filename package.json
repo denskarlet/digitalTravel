@@ -13,6 +13,13 @@
     "globalSetup": "./jest-setup.js",
     "globalTeardown": "./jest-teardown.js"
   },
+  "browserslist": [
+    "last 3 and_chr versions",
+    "last 3 chrome versions",
+    "last 3 opera versions",
+    "last 3 ios_saf versions",
+    "last 3 safari versions"
+  ],
   "dependencies": {
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -25,6 +32,7 @@
     "query-string": "^6.13.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-places-autocomplete": "^7.3.0",
     "react-router-dom": "^5.2.0",
     "styled-components": "^5.1.1",
     "superagent": "^5.3.1"
