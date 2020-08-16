@@ -94,12 +94,18 @@ exports.spotifyAuthorize = async (code) => {
     throw new MyError(500, err.message);
   }
 };
+
 exports.calculateExpiration = () => {
   return Math.floor(Date.now() / 1000) + 60 * 60;
 };
 exports.spotifyGetRefreshToken = async (refresh_token) => {
   try {
-    const params = queryString.stringify({ client_id, client_secret, refresh_token });
+    const params = queryString.stringify({
+      client_id,
+      client_secret,
+      refresh_token,
+      grant_type: 'refresh_token',
+    });
     const response = await fetch(`https://accounts.spotify.com/api/token?${params}`, {
       method: 'POST',
       headers: {
