@@ -37,12 +37,13 @@ userController.authorize = async (req, res, next) => {
 
 userController.refreshToken = async (req, res, next) => {
   const { refresh } = req.cookies;
-  if (!refresh) return res.sendStatus(400);
+  if (!refresh) return res.sendStatus(403);
   try {
     const { refresh_token } = jwt.verify(refresh, mySecret);
     const { access_token } = await spotifyGetRefreshToken(refresh_token);
     const exp = calculateExpiration();
     res.cookie('token', jwt.sign({ access_token, exp }, mySecret));
+    res.locals.userData = access_token;
     return next();
   } catch (err) {
     return next(err);
@@ -51,8 +52,7 @@ userController.refreshToken = async (req, res, next) => {
 
 userController.getUserData = async (req, res, next) => {
   try {
-    const encrypted = jwt.verify(req.cookies.token, mySecret);
-    const { access_token } = encrypted;
+    const access_token = res.locals.userData;
     res.locals.userData = await fetchUserData(access_token);
     return next();
   } catch (err) {
@@ -63,7 +63,8 @@ userController.getUserData = async (req, res, next) => {
 userController.verify = async (req, res, next) => {
   try {
     const { token } = req.cookies;
-    jwt.verify(token, mySecret);
+    const { access_token } = jwt.verify(token, mySecret);
+    res.locals.userData = access_token;
     return next();
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
