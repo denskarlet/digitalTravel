@@ -26,6 +26,7 @@ exports.fetchWeatherApi = async (lat, lng, key) => {
 };
 exports.fetchCountryApi = async (country) => {
   try {
+    if (country === 'UK') country = 'GB';
     const url = `https://restcountries.eu/rest/v2/name/${country}`;
     const response = await fetch(url);
     return response.json();
