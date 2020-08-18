@@ -15,9 +15,9 @@ exports.fetchSpotifyApi = async (countryCode, access_token) => {
     throw new MyError(500, err.message);
   }
 };
-exports.fetchWeatherApi = async (lat, lon, key) => {
+exports.fetchWeatherApi = async (lat, lng, key) => {
   try {
-    const url = `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${lon}&appid=${key}`;
+    const url = `https://api.openweathermap.org/data/2.5/weather?units=metric&lat=${lat}&lon=${lng}&appid=${key}`;
     const response = await fetch(url);
     return response.json();
   } catch (err) {
@@ -37,7 +37,7 @@ exports.parseSpotifyResponse = (obj, country) => {
   try {
     return obj.playlists.items.find((item) => item.name === `${country} Top 50`).tracks.href;
   } catch (err) {
-    return undefined;
+    return '';
   }
 };
 exports.parseWeatherResponse = (obj) => {

@@ -19,20 +19,18 @@ const locationController = {};
 
 locationController.getLocationData = async (req, res, next) => {
   try {
-    const { lat, lon, country, city } = req.query;
-    if (!lat || !lon || !country || !city)
+    const { lat, lng, country, city } = req.query;
+    if (!lat || !lng || !country || !city)
       throw new MyError(400, null, 'Ensure all the query parameters are provided');
 
     const [weatherData, [countryData]] = await Promise.all([
-      fetchWeatherApi(lat, lon, weatherKey),
+      fetchWeatherApi(lat, lng, weatherKey),
       fetchCountryApi(country),
     ]);
-
     const { alpha2Code } = countryData;
     const { access_token } = await jwt.verify(req.cookies.token, mySecret);
 
     const spotifyData = await fetchSpotifyApi(alpha2Code, access_token);
-
     res.locals.locationData = {
       weatherData,
       countryData,
@@ -40,6 +38,8 @@ locationController.getLocationData = async (req, res, next) => {
     };
     return next();
   } catch (err) {
+    console.log(err);
+
     return next(err);
   }
 };

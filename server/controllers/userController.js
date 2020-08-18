@@ -88,8 +88,8 @@ userController.findOrCreate = async (req, res, next) => {
 
 userController.getFavorites = async (req, res, next) => {
   try {
-    const { user_id } = res.locals.userData;
-    res.locals.userData.favorites = await dbGetFavorites(user_id);
+    const { id } = req.params;
+    res.locals.favorites = await dbGetFavorites(id);
     return next();
   } catch (err) {
     return next(err);
