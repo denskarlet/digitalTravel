@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
-const Input = () => {
+const Input = ({ onClick }) => {
   const [location, setLocation] = useState('');
 
   const handleSelect = async (value) => {
     const result = await geocodeByAddress(value);
     setLocation(value);
-    const s = await getLatLng(result[0]);
-    console.log(s);
-    const [city, country] = value.split(',');
-    console.log({ city, country });
+    const { lat, lng } = await getLatLng(result[0]);
+    const arr = value.split(',');
+    onClick(`lat=${lat}&lng=${lng}&city=${arr[0]}&country=${arr[arr.length - 1].trim()}`);
+    setLocation('');
   };
   return (
     <PlacesAutocomplete

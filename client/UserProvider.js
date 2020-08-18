@@ -10,7 +10,8 @@ const UserProvider = ({ children }) => {
     if (isLogged) {
       fetch('/api/user')
         .then((res) => res.json())
-        .then((data) => setUserData(data));
+        .then((data) => setUserData(data))
+        .catch((err) => setIsLogged(false));
     }
   }, [isLogged]);
   return (
