@@ -27,6 +27,7 @@ exports.fetchWeatherApi = async (lat, lng, key) => {
 exports.fetchCountryApi = async (country) => {
   try {
     if (country === 'UK') country = 'GB';
+
     const url = `https://restcountries.eu/rest/v2/name/${country}`;
     const response = await fetch(url);
     return response.json();
@@ -36,6 +37,8 @@ exports.fetchCountryApi = async (country) => {
 };
 exports.parseSpotifyResponse = (obj, country) => {
   try {
+    if (country === 'UK') country = 'United Kingdom';
+    if (country === 'USA') country = 'United States';
     return obj.playlists.items.find((item) => item.name === `${country} Top 50`).tracks.href;
   } catch (err) {
     return '';
