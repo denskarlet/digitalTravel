@@ -14,7 +14,7 @@ const Input = ({ setQuery }) => {
       'query',
       `lat=${lat}&lng=${lng}&city=${arr[0]}&country=${arr[arr.length - 1].trim()}`
     );
-
+    document.title = value;
     setLocation('');
   };
   return (

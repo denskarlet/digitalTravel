@@ -34,7 +34,6 @@ if (process.env.NODE_ENV === 'production') {
 // Error Handler
 app.use((err, req, res, next) => {
   console.log(`MIDDLEWARE ERROR: ${err}`);
-  console.log(err.trace);
   err.myMessage ? console.log(err.myMessage) : null;
   res.status(err.status || 500).send(JSON.stringify(err.myMessage || 'Internal Server Error'));
 });

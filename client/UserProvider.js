@@ -38,7 +38,7 @@ const UserProvider = ({ children }) => {
   // const [userData, setUserData] = useState(null);
   // const [isLoading, setIsLoading] = useState(false);
   const [userData, isLoading, error] = useFetch('/api/user');
-  console.log({ userData, isLoading, error, isLogged });
+  // console.log({ userData, isLoading, error, isLogged });
   // useEffect(() => {
   //   if (isLogged) {
   //     setIsLoading(true);
