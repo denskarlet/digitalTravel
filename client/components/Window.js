@@ -5,7 +5,6 @@ import Country from './Country';
 import useFetch from '../useFetch';
 
 const Window = ({ query }) => {
-  console.log({ query });
   const [data, isLoading, error] = useFetch(`api/location?${query}`);
 
   if (isLoading) return <div>Loading...</div>;
