@@ -6,7 +6,6 @@ import useFetch from '../useFetch';
 
 const Window = ({ query }) => {
   const [data, isLoading, error] = useFetch(`api/location?${query}`);
-
   if (isLoading) return <div>Loading...</div>;
   const { playlist, countryInfo, weatherInfo } = data;
   return (

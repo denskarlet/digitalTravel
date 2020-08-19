@@ -1,5 +1,5 @@
-// import React from 'react';
+import React from 'react';
 
-// const FavotiresContext = React.createContext();
+const FavotiresContext = React.createContext();
 
-// export default FavotiresContext;
+export default FavotiresContext;

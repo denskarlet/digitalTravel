@@ -6,11 +6,11 @@ const Spotify = ({ data }) => {
   const url = data.split('/');
   return (
     <div>
-      {isLoading && <span>Loading...</span>}
+      {isLoading && <h3>Loading...</h3>}
       <iframe
         src={`https://open.spotify.com/embed/playlist/${url[url.length - 2]}`}
         width="300"
-        height="300"
+        height="170"
         frameBorder="0"
         onLoad={() => {
           setIsLoading(false);
