@@ -9,11 +9,10 @@ import useFetch from '../useFetch';
 import Input from './Input';
 
 const Home = () => {
-  const { userData, isLoading } = useContext(UserContext);
+  const { userData } = useContext(UserContext);
   const [query, setQuery] = useState(null);
   const [state, dispatch] = useReducer(favoritesReducer, initialState);
 
-  if (isLoading) return <div>Loading...</div>;
   return (
     <div>
       {userData && (
@@ -25,7 +24,7 @@ const Home = () => {
       <Input setQuery={setQuery} />
       {query && <Window query={query} />}
       <FavoritesContext.Provider value={{ dispatch, state, setQuery, id: userData.user_id }}>
-        {userData && <Favorites />}
+        <Favorites />
       </FavoritesContext.Provider>
     </div>
   );

@@ -5,7 +5,9 @@ import useFetch from '../useFetch';
 
 const Favorites = React.memo(({ query }) => {
   const { state, dispatch, setQuery, id } = useContext(FavotiresContext);
+  console.log({ state, dispatch, setQuery, id });
   const [initialLoad, loading, error] = useFetch(`api/favorites/${id}`);
+
   useEffect(() => {
     dispatch({ type: LOADED_DATA, payload: { data: initialLoad } });
   }, [initialLoad]);

@@ -51,6 +51,7 @@ const UserProvider = ({ children }) => {
   //       .catch((err) => setIsLogged(false));
   //   }
   // }, [isLogged]);
+  if (isLoading) return <h1>Loading...</h1>;
   return (
     <UserContext.Provider value={{ isLogged, userData, isLoading }}>
       {children}

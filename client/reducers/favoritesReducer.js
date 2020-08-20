@@ -3,7 +3,7 @@ const { LOADED_DATA, ADD_FAVORITE, REMOVE_FAVORITE } = require('../actions/actio
 export const initialState = [];
 
 const favoritesReducer = (state, { type, payload }) => {
-  if (type === LOADED_DATA && payload.data) return payload.data;
+  if (type === LOADED_DATA) return payload.data;
 
   if (type === ADD_FAVORITE) return [payload.data, ...state];
 
