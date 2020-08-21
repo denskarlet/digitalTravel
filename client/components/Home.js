@@ -11,7 +11,7 @@ import Input from './Input';
 const Home = () => {
   const { userData } = useContext(UserContext);
   const [query, setQuery] = useState(null);
-  const [state, dispatch] = useReducer(favoritesReducer, initialState);
+  // const [state, dispatch] = useReducer(favoritesReducer, initialState);
 
   return (
     <div>
@@ -23,9 +23,9 @@ const Home = () => {
       )}
       <Input setQuery={setQuery} />
       {query && <Window query={query} />}
-      <FavoritesContext.Provider value={{ dispatch, state, setQuery, id: userData.user_id }}>
-        <Favorites />
-      </FavoritesContext.Provider>
+      {/* <FavoritesContext.Provider value={{ dispatch, state, setQuery, id: userData.user_id }}> */}
+      <Favorites setQuery={setQuery} query={query} id={userData.user_id} />
+      {/* </FavoritesContext.Provider> */}
     </div>
   );
 };
