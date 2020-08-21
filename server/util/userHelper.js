@@ -54,8 +54,9 @@ exports.dbAddFavorite = async ({ location_id, user_id }) => {
 };
 exports.dbRemoveFavorite = async (favorite_id) => {
   try {
-    const query = `DELETE FROM favorites WHERE favorite_id='${favorite_id}'`;
-    return db.query(query);
+    const query = `DELETE FROM favorites WHERE favorite_id='${favorite_id}' RETURNING *`;
+    const { rows } = await db.query(query);
+    return rows[0];
   } catch (err) {
     throw new MyError(500, err.message);
   }

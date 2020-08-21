@@ -14,7 +14,7 @@ router.post(
   }
 );
 router.delete('/favorites/:favorite_id', userController.removeFavorite, (req, res) => {
-  res.sendStatus(200);
+  res.status(200).json(res.locals.removed);
 });
 router.get('/favorites/:id', getFavorites, (req, res) => {
   res.status(200).json(res.locals.favorites);
