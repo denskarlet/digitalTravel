@@ -9,7 +9,9 @@ const Input = ({ setQuery }) => {
     const result = await geocodeByAddress(value);
     const { lat, lng } = await getLatLng(result[0]);
     const arr = value.split(',');
+
     setQuery(`lat=${lat}&lng=${lng}&city=${arr[0]}&country=${arr[arr.length - 1].trim()}`);
+
     sessionStorage.setItem(
       'query',
       `lat=${lat}&lng=${lng}&city=${arr[0]}&country=${arr[arr.length - 1].trim()}`

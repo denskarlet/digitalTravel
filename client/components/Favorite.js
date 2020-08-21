@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { REMOVE_FAVORITE } from '../actions/actions';
 const Favorite = ({ data, dispatch }) => {
   const { favorite_id } = data;
+
   const removeFav = (id) => {
     return (dispatch) => {
       fetch(`/api/favorites/${id}`, {

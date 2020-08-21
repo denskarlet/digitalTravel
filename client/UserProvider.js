@@ -35,22 +35,7 @@ import UserContext from './UserContext';
 
 const UserProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(!!Cookies.get('token'));
-  // const [userData, setUserData] = useState(null);
-  // const [isLoading, setIsLoading] = useState(false);
   const [userData, isLoading, error] = useFetch('/api/user');
-  // console.log({ userData, isLoading, error, isLogged });
-  // useEffect(() => {
-  //   if (isLogged) {
-  //     setIsLoading(true);
-  //     fetch('/api/user')
-  //       .then((res) => res.json())
-  //       .then((data) => {
-  //         setIsLoading(false);
-  //         setUserData(data);
-  //       })
-  //       .catch((err) => setIsLogged(false));
-  //   }
-  // }, [isLogged]);
   if (isLoading) return <h1>Loading...</h1>;
   return (
     <UserContext.Provider value={{ isLogged, userData, isLoading }}>
