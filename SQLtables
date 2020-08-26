@@ -13,11 +13,15 @@ CREATE TABLE users (
 CREATE TABLE locations (
   location_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
   country_name varchar(1024),
-  city_name varchar(1024)
+  city_name varchar(1024),
+  lat varchar(1024) NOT NULL,
+  lng varchar(1024) NOT NULL
 );
 
 CREATE TABLE favorites (
   favorite_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
   user_id UUID NOT NULL,
-  location_id UUID NOT NULL
+  location_id UUID NOT NULL,
 );
+
+
