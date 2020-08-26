@@ -9,13 +9,15 @@ const Input = ({ setQuery }) => {
     const result = await geocodeByAddress(value);
     const { lat, lng } = await getLatLng(result[0]);
     const arr = value.split(',');
+    const query = {
+      lat,
+      lng,
+      city_name: arr[0],
+      country_name: arr[arr.length - 1].trim(),
+    };
+    sessionStorage.setItem('query', JSON.stringify(query));
+    setQuery(query);
 
-    setQuery(`lat=${lat}&lng=${lng}&city=${arr[0]}&country=${arr[arr.length - 1].trim()}`);
-
-    sessionStorage.setItem(
-      'query',
-      `lat=${lat}&lng=${lng}&city=${arr[0]}&country=${arr[arr.length - 1].trim()}`
-    );
     document.title = value;
     setLocation('');
   };

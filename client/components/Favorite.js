@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { REMOVE_FAVORITE } from '../actions/actions';
-const Favorite = ({ data, dispatch }) => {
+const Favorite = ({ data, dispatch, setQuery }) => {
   const { favorite_id } = data;
-
+  console.log({ data });
   const removeFav = (id) => {
     return (dispatch) => {
       fetch(`/api/favorites/${id}`, {
@@ -19,6 +19,7 @@ const Favorite = ({ data, dispatch }) => {
     <>
       <pre>{JSON.stringify(data, null, 2)}</pre>
       <button onClick={() => dispatch(removeFav(favorite_id))}>Remove</button>
+      <button onClick={() => setQuery(data)}>GO</button>
     </>
   );
 };

@@ -13,7 +13,6 @@ const Favorites = React.memo(({ query, setQuery, id }) => {
   //   dispatch({ type: LOADED_DATA, payload: { data: initialLoad } });
   // }, [initialLoad]);
   const [state, dispatch] = useThunkReducer(favoritesReducer, initialState);
-  console.log({ state });
   useEffect(() => {
     fetch(`/api/favorites/${id}`)
       .then((res) => res.json())
@@ -24,7 +23,7 @@ const Favorites = React.memo(({ query, setQuery, id }) => {
   return (
     <div>
       {state.map((elem, i) => (
-        <Favorite key={`fav${i}`} data={elem} dispatch={dispatch} />
+        <Favorite key={`fav${i}`} data={elem} dispatch={dispatch} setQuery={setQuery} />
       ))}
       <button
         onClick={() => {
@@ -38,6 +37,6 @@ const Favorites = React.memo(({ query, setQuery, id }) => {
 });
 
 export default Favorites;
-// consider not using context, but just useThunkReducer here and render 'add to fav' component here
+// consider not using context, but just useThunkReducer here and render 'add to fav' component
 // since it has access to the current query via session storage.
 // only prop drill 'set query'
