@@ -33,15 +33,25 @@ exports.dbCreateUser = async ({ name, email, imgUrl }) => {
     throw new MyError(500, err.message);
   }
 };
+
 exports.dbGetFavorites = async (user_id) => {
   try {
-    const query = `SELECT * FROM favorites WHERE user_id='${user_id}'`;
+    const query = `SELECT * FROM locations LEFT JOIN favorites ON locations.location_id=favorites.location_id WHERE user_id='${user_id}'`;
     const { rows } = await db.query(query);
     return rows;
   } catch (err) {
     throw new MyError(500, err.message);
   }
 };
+// exports.dbGetFavorites = async (user_id) => {
+//   try {
+//     const query = `SELECT * FROM favorites WHERE user_id='${user_id}'`;
+//     const { rows } = await db.query(query);
+//     return rows;
+//   } catch (err) {
+//     throw new MyError(500, err.message);
+//   }
+// };
 exports.dbAddFavorite = async ({ location_id, user_id }) => {
   try {
     const query = `INSERT INTO favorites (user_id, location_id) VALUES ($1, $2) RETURNING *`;

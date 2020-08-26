@@ -20,6 +20,7 @@ const locationController = {};
 locationController.getLocationData = async (req, res, next) => {
   try {
     const { lat, lng, country, city } = req.query;
+    console.log({ lat, lng, country, city });
     if (!lat || !lng || !country || !city)
       throw new MyError(400, null, 'Ensure all the query parameters are provided');
 
@@ -63,11 +64,11 @@ locationController.parseData = (req, res, next) => {
 
 locationController.getLocationId = async (req, res, next) => {
   try {
-    const { country, city } = req.body;
-    if (!country || !city) throw new MyError(400, 'Ensure both city and country are provided');
+    const { country, city, lat, lng } = req.body;
+    if (!country || !city || !lat || !lng) throw new MyError(400, 'Ensure all fields are provided');
     let { location_id } = await dbFindLocation(city, country);
     if (!location_id) {
-      const createdLocation = await dbCreateLocation(city, country);
+      const createdLocation = await dbCreateLocation({ city, country, lat, lng });
       location_id = createdLocation.location_id;
     }
     res.locals.location_id = location_id;

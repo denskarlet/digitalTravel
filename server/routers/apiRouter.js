@@ -19,6 +19,7 @@ router.delete('/favorites/:favorite_id', userController.removeFavorite, (req, re
 router.get('/favorites/:id', getFavorites, (req, res) => {
   res.status(200).json(res.locals.favorites);
 });
+
 router.get(
   '/user',
   userController.verify,
