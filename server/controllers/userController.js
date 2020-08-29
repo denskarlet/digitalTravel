@@ -97,9 +97,9 @@ userController.getFavorites = async (req, res, next) => {
 
 userController.addFavorite = async (req, res, next) => {
   try {
-    const { user_id } = req.body;
+    const userId = req.body.user_id;
     const { location } = res.locals;
-    const favorite = await dbAddFavorite({ user_id, location });
+    const favorite = await dbAddFavorite({ userId, location });
     res.locals.favorite = { ...location, ...favorite };
     return next();
   } catch (err) {
@@ -108,8 +108,8 @@ userController.addFavorite = async (req, res, next) => {
 };
 userController.removeFavorite = async (req, res, next) => {
   try {
-    const { favorite_id } = req.params;
-    res.locals.removed = await dbRemoveFavorite(favorite_id);
+    const favoriteId = req.params.favorite_id;
+    res.locals.removed = await dbRemoveFavorite(favoriteId);
     return next();
   } catch (err) {
     return next(err);
