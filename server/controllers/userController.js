@@ -1,6 +1,7 @@
 const fetch = require('node-fetch');
 const superagent = require('superagent');
 const jwt = require('jsonwebtoken');
+const db = require('../db');
 const { client_id, client_secret, redirect_uri, mySecret, linkToSpotify } = require('../../secret');
 const {
   fetchUserData,
@@ -13,9 +14,7 @@ const {
   setJswCookie,
   calculateExpiration,
   spotifyGetRefreshToken,
-} = require('../util/userHelper');
-
-const db = require('../db');
+} = require('../helpers');
 
 const userController = {};
 
@@ -52,8 +51,8 @@ userController.refreshToken = async (req, res, next) => {
 
 userController.getUserData = async (req, res, next) => {
   try {
-    const access_token = res.locals.userData;
-    res.locals.userData = await fetchUserData(access_token);
+    const accessToken = res.locals.userData;
+    res.locals.userData = await fetchUserData(accessToken);
     return next();
   } catch (err) {
     return next(err);
@@ -63,8 +62,8 @@ userController.getUserData = async (req, res, next) => {
 userController.verify = async (req, res, next) => {
   try {
     const { token } = req.cookies;
-    const { access_token } = jwt.verify(token, mySecret);
-    res.locals.userData = access_token;
+    const { access_token: accessToken } = jwt.verify(token, mySecret);
+    res.locals.userData = accessToken;
     return next();
   } catch (err) {
     if (err.name === 'TokenExpiredError') {
