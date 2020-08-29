@@ -11,6 +11,9 @@ import Input from './Input';
 const Home = () => {
   const { userData } = useContext(UserContext);
   const [query, setQuery] = useState(null);
+  // useEffect(() => () => {
+  //   sessionStorage.removeItem('query');
+  // });
   // const [state, dispatch] = useReducer(favoritesReducer, initialState);
 
   return (
@@ -24,7 +27,7 @@ const Home = () => {
       <Input setQuery={setQuery} />
       {query && <Window query={query} />}
       {/* <FavoritesContext.Provider value={{ dispatch, state, setQuery, id: userData.user_id }}> */}
-      <Favorites setQuery={setQuery} query={query} id={userData.user_id} />
+      <Favorites query={query} setQuery={setQuery} id={userData.user_id} />
       {/* </FavoritesContext.Provider> */}
     </div>
   );

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useReducer } from 'react';
+import React, { useContext, useEffect, useReducer, useState } from 'react';
 import FavotiresContext from '../FavoritesContext';
 import { ADD_FAVORITE, REMOVE_FAVORITE, LOADED_DATA } from '../actions/actions';
 import useFetch from '../useFetch';
@@ -6,37 +6,79 @@ import useThunkReducer from '../useThunkReducer';
 import favoritesReducer, { initialState } from '../reducers/favoritesReducer';
 import Favorite from './Favorite';
 
-const Favorites = React.memo(({ query, setQuery, id }) => {
-  // const { state, dispatch, setQuery, id } = useContext(FavotiresContext);
-  // const [initialLoad, loading, error] = useFetch(`api/favorites/${id}`);
-  // useEffect(() => {
-  //   dispatch({ type: LOADED_DATA, payload: { data: initialLoad } });
-  // }, [initialLoad]);
+const addFav = (query, user_id) => {
+  const send = {
+    city: query.city_name,
+    country: query.country_name,
+    lng: query.lng,
+    lat: query.lat,
+    user_id,
+  };
+  return (dispatch) => {
+    fetch(`/api/favorites`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(send),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: ADD_FAVORITE, payload: { data } });
+      })
+      .catch((err) => console.log(err));
+  };
+};
+const Favorites = React.memo(({ setQuery, query, id }) => {
   const [state, dispatch] = useThunkReducer(favoritesReducer, initialState);
+  const [yes, setYes] = useState(false);
   useEffect(() => {
     fetch(`/api/favorites/${id}`)
       .then((res) => res.json())
       .then((data) => dispatch({ type: LOADED_DATA, payload: data }))
       .catch((err) => console.log(err));
   }, []);
-
+  useEffect(() => {
+    if (!query) return;
+    const checkIfFav = (query, state) => {
+      const { city_name, country_name } = query;
+      let found = false;
+      for (let i = 0; i < state.length; i++) {
+        if (city_name === state[i].city_name && country_name === state[i].country_name) {
+          setYes(true);
+          found = true;
+        }
+        if (!found) setYes(false);
+      }
+    };
+    checkIfFav(query, state);
+  }, [query, state]);
   return (
     <div>
+      <h1>
+        IS FAV:
+        {JSON.stringify(yes)}
+      </h1>
+      {query && (
+        <button
+          type="button"
+          onClick={() => {
+            dispatch(addFav(query, id));
+            setYes(true);
+          }}
+        >
+          CLICK
+        </button>
+      )}
       {state.map((elem, i) => (
-        <Favorite key={`fav${i}`} data={elem} dispatch={dispatch} setQuery={setQuery} />
+        <Favorite
+          id={id}
+          key={elem.favorite_id}
+          data={elem}
+          dispatch={dispatch}
+          setQuery={setQuery}
+        />
       ))}
-      <button
-        onClick={() => {
-          dispatch({ type: ADD_FAVORITE, payload: { data: { a: 1, b: 2, c: 3 } } });
-        }}
-      >
-        CLICK
-      </button>
     </div>
   );
 });
 
 export default Favorites;
-// consider not using context, but just useThunkReducer here and render 'add to fav' component
-// since it has access to the current query via session storage.
-// only prop drill 'set query'
