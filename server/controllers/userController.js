@@ -99,8 +99,9 @@ userController.getFavorites = async (req, res, next) => {
 userController.addFavorite = async (req, res, next) => {
   try {
     const { user_id } = req.body;
-    const { location_id } = res.locals;
-    res.locals.favorite = await dbAddFavorite({ user_id, location_id });
+    const { location } = res.locals;
+    const favorite = await dbAddFavorite({ user_id, location });
+    res.locals.favorite = { ...location, ...favorite };
     return next();
   } catch (err) {
     return next(err);

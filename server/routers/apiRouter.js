@@ -25,7 +25,6 @@ router.get(
   userController.verify,
   userController.getUserData,
   userController.findOrCreate,
-  // userController.getFavorites,
   (req, res) => {
     res.status(200).json(res.locals.userData);
   }

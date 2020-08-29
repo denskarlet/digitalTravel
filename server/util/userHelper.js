@@ -43,17 +43,10 @@ exports.dbGetFavorites = async (user_id) => {
     throw new MyError(500, err.message);
   }
 };
-// exports.dbGetFavorites = async (user_id) => {
-//   try {
-//     const query = `SELECT * FROM favorites WHERE user_id='${user_id}'`;
-//     const { rows } = await db.query(query);
-//     return rows;
-//   } catch (err) {
-//     throw new MyError(500, err.message);
-//   }
-// };
-exports.dbAddFavorite = async ({ location_id, user_id }) => {
+
+exports.dbAddFavorite = async ({ location, user_id }) => {
   try {
+    const { location_id } = location;
     const query = `INSERT INTO favorites (user_id, location_id) VALUES ($1, $2) RETURNING *`;
     const values = [user_id, location_id];
     const { rows } = await db.query(query, values);
@@ -66,7 +59,7 @@ exports.dbRemoveFavorite = async (favorite_id) => {
   try {
     const query = `DELETE FROM favorites WHERE favorite_id='${favorite_id}' RETURNING *`;
     const { rows } = await db.query(query);
-    return rows[0];
+    return rows[0] || {};
   } catch (err) {
     throw new MyError(500, err.message);
   }

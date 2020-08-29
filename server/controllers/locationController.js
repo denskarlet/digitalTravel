@@ -66,12 +66,11 @@ locationController.getLocationId = async (req, res, next) => {
   try {
     const { country, city, lat, lng } = req.body;
     if (!country || !city || !lat || !lng) throw new MyError(400, 'Ensure all fields are provided');
-    let { location_id } = await dbFindLocation(city, country);
-    if (!location_id) {
-      const createdLocation = await dbCreateLocation({ city, country, lat, lng });
-      location_id = createdLocation.location_id;
+    let location = await dbFindLocation(city, country);
+    if (!location) {
+      location = await dbCreateLocation({ city, country, lat, lng });
     }
-    res.locals.location_id = location_id;
+    res.locals.location = location;
     return next();
   } catch (err) {
     return next(err);

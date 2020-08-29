@@ -90,7 +90,7 @@ exports.dbFindLocation = async (city, country) => {
   try {
     const query = `SELECT * FROM locations WHERE city_name='${city}' AND country_name='${country}'`;
     const { rows } = await db.query(query);
-    if (!rows.length) return {};
+    if (!rows.length) return null;
     return rows[0];
   } catch (err) {
     throw new MyError(500, err.message);
