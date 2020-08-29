@@ -4,13 +4,14 @@ import useThunkReducer from '../util/useThunkReducer';
 import favoritesReducer, { initialState } from '../reducers/favoritesReducer';
 import Favorite from './Favorite';
 
-const addFav = (query, user_id) => {
+const addFav = (query, userId) => {
+  console.log({ query, userId });
   const send = {
     city: query.city_name,
     country: query.country_name,
     lng: query.lng,
     lat: query.lat,
-    user_id,
+    user_id: userId,
   };
   return (dispatch) => {
     fetch(`/api/favorites`, {
@@ -25,14 +26,23 @@ const addFav = (query, user_id) => {
       .catch((err) => console.log(err));
   };
 };
+
+const getFavs = (id) => {
+  return (dispatch) => {
+    fetch(`/api/favorites/${id}`)
+      .then((res) => res.json())
+      .then((data) => {
+        dispatch({ type: LOADED_DATA, payload: data });
+      })
+      .catch((err) => console.log(err));
+  };
+};
 const Favorites = React.memo(({ setQuery, query, id }) => {
   const [state, dispatch] = useThunkReducer(favoritesReducer, initialState);
   const [yes, setYes] = useState(false);
+  console.log({ query });
   useEffect(() => {
-    fetch(`/api/favorites/${id}`)
-      .then((res) => res.json())
-      .then((data) => dispatch({ type: LOADED_DATA, payload: data }))
-      .catch((err) => console.log(err));
+    dispatch(getFavs(id));
   }, []);
 
   useEffect(() => {
