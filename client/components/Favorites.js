@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react';
-import FavotiresContext from '../FavoritesContext';
 import { ADD_FAVORITE, REMOVE_FAVORITE, LOADED_DATA } from '../actions/actions';
-import useFetch from '../useFetch';
-import useThunkReducer from '../useThunkReducer';
+import useThunkReducer from '../util/useThunkReducer';
 import favoritesReducer, { initialState } from '../reducers/favoritesReducer';
 import Favorite from './Favorite';
 
@@ -36,6 +34,7 @@ const Favorites = React.memo(({ setQuery, query, id }) => {
       .then((data) => dispatch({ type: LOADED_DATA, payload: data }))
       .catch((err) => console.log(err));
   }, []);
+
   useEffect(() => {
     if (!query) return;
     const checkIfFav = (query, state) => {
@@ -51,6 +50,7 @@ const Favorites = React.memo(({ setQuery, query, id }) => {
     };
     checkIfFav(query, state);
   }, [query, state]);
+
   return (
     <div>
       <h1>

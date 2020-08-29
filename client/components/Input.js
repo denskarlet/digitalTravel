@@ -3,7 +3,6 @@ import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-au
 
 const Input = ({ setQuery }) => {
   const [location, setLocation] = useState('');
-
   const handleSelect = async (value) => {
     setLocation(value);
     const result = await geocodeByAddress(value);
