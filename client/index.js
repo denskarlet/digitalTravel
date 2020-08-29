@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { BrowserRouter as Router, Switch, Route, Link, Redirect } from 'react-router-dom';
 import UserProvider from './UserProvider';
-import App from './App.jsx';
+import App from './App';
 
 if (module && module.hot) {
   module.hot.accept();
