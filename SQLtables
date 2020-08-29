@@ -21,7 +21,7 @@ CREATE TABLE locations (
 CREATE TABLE favorites (
   favorite_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
   user_id UUID NOT NULL,
-  location_id UUID NOT NULL,
+  location_id UUID NOT NULL
 );
 
 
