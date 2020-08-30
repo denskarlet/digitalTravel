@@ -1,23 +1,21 @@
 import React, { useState } from 'react';
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
+const normalize = async (string) => {
+  const result = await geocodeByAddress(string);
+  const { lat, lng } = await getLatLng(result[0]);
+  const arr = string.split(',');
+  const city_name = arr.shift();
+  const country_name = arr.pop().trim();
+  return { city_name, country_name, lat, lng };
+};
 const Input = ({ setQuery }) => {
   const [location, setLocation] = useState('');
-  const handleSelect = async (value) => {
-    setLocation(value);
-    const result = await geocodeByAddress(value);
-    const { lat, lng } = await getLatLng(result[0]);
-    const arr = value.split(',');
-    const query = {
-      lat,
-      lng,
-      city_name: arr[0],
-      country_name: arr[arr.length - 1].trim(),
-    };
-    sessionStorage.setItem('query', JSON.stringify(query));
-    setQuery(query);
 
-    document.title = value;
+  const handleSelect = async (input) => {
+    setLocation(input);
+    setQuery(await normalize(input));
+    document.title = input;
     setLocation('');
   };
   return (

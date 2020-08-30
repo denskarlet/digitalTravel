@@ -16,7 +16,6 @@ const removeFav = (id) => {
 
 const Favorite = ({ data, dispatch, setQuery }) => {
   const { favorite_id } = data;
-  // console.log(JSON.parse(sessionStorage.getItem('query')));
   return (
     <>
       <pre>{JSON.stringify(data, null, 2)}</pre>

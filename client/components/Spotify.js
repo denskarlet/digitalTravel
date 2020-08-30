@@ -8,6 +8,7 @@ const Spotify = ({ data }) => {
     <div>
       {isLoading && <h3>Loading...</h3>}
       <iframe
+        title="player"
         src={`https://open.spotify.com/embed/playlist/${url[url.length - 2]}`}
         width="300"
         height="170"
@@ -17,7 +18,7 @@ const Spotify = ({ data }) => {
         }}
         allowransparency="true"
         allow="encrypted-media"
-      ></iframe>
+      />
     </div>
   );
 };

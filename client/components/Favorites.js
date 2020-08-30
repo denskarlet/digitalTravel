@@ -37,56 +37,52 @@ const getFavs = (id) => {
       .catch((err) => console.log(err));
   };
 };
+
+const isSelected = (favs, current) => {
+  const { city_name, country_name } = current;
+  let found = false;
+  for (let i = 0; i < favs.length; i++) {
+    if (city_name === favs[i].city_name && country_name === favs[i].country_name) {
+      found = true;
+      break;
+    }
+  }
+  return found;
+};
 const Favorites = React.memo(({ setQuery, query, id }) => {
-  const [state, dispatch] = useThunkReducer(favoritesReducer, initialState);
-  const [yes, setYes] = useState(false);
-  console.log({ query });
+  const [favorites, dispatch] = useThunkReducer(favoritesReducer, initialState);
+  const [isFav, setIsFav] = useState(false);
+
   useEffect(() => {
     dispatch(getFavs(id));
   }, []);
 
   useEffect(() => {
     if (!query) return;
-    const checkIfFav = (query, state) => {
-      const { city_name, country_name } = query;
-      let found = false;
-      for (let i = 0; i < state.length; i++) {
-        if (city_name === state[i].city_name && country_name === state[i].country_name) {
-          setYes(true);
-          found = true;
-        }
-        if (!found) setYes(false);
-      }
-    };
-    checkIfFav(query, state);
-  }, [query, state]);
+    setIsFav(isSelected(favorites, query));
+  }, [query, favorites]);
 
+  const favsToRender = favorites.map((elem, i) => (
+    <Favorite id={id} key={elem.favorite_id} data={elem} dispatch={dispatch} setQuery={setQuery} />
+  ));
   return (
     <div>
       <h1>
         IS FAV:
-        {JSON.stringify(yes)}
+        {JSON.stringify(isFav)}
       </h1>
       {query && (
         <button
           type="button"
           onClick={() => {
             dispatch(addFav(query, id));
-            setYes(true);
+            setIsFav(true);
           }}
         >
           CLICK
         </button>
       )}
-      {state.map((elem, i) => (
-        <Favorite
-          id={id}
-          key={elem.favorite_id}
-          data={elem}
-          dispatch={dispatch}
-          setQuery={setQuery}
-        />
-      ))}
+      {favsToRender}
     </div>
   );
 });
