@@ -49,7 +49,7 @@ const isSelected = (favs, current) => {
   }
   return found;
 };
-const Favorites = React.memo(({ setQuery, query, id }) => {
+const Favorites = ({ setQuery, query, id }) => {
   const [favorites, dispatch] = useThunkReducer(favoritesReducer, initialState);
   const [isFav, setIsFav] = useState(false);
 
@@ -85,6 +85,6 @@ const Favorites = React.memo(({ setQuery, query, id }) => {
       {favsToRender}
     </div>
   );
-});
+};
 
-export default Favorites;
+export default React.memo(Favorites);
