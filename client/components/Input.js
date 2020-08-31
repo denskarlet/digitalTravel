@@ -18,6 +18,7 @@ const Input = ({ setQuery }) => {
     document.title = input;
     setLocation('');
   };
+
   return (
     <PlacesAutocomplete
       value={location}

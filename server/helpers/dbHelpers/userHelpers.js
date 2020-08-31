@@ -2,15 +2,6 @@ const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
 const queryString = require('query-string');
 
-const {
-  client_id,
-  client_secret,
-  redirect_uri,
-  mySecret,
-  linkToSpotify,
-  grant_type,
-} = require('../../../secret');
-
 const db = require('../../db');
 const MyError = require('../myError');
 

@@ -1,3 +1,4 @@
+// /* eslint-disable camelcase */
 const fetch = require('node-fetch');
 const jwt = require('jsonwebtoken');
 const queryString = require('query-string');
@@ -10,7 +11,6 @@ const {
   linkToSpotify,
   grant_type,
 } = require('../../secret');
-
 const db = require('../db');
 const MyError = require('./myError');
 
