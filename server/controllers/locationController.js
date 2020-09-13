@@ -20,7 +20,6 @@ const locationController = {};
 locationController.getLocationData = async (req, res, next) => {
   try {
     const { lat, lng, country, city } = req.query;
-    console.log({ lat, lng, country, city });
     if (!lat || !lng || !country || !city)
       throw new MyError(400, null, 'Ensure all the query parameters are provided');
     const [weatherData, [countryData]] = await Promise.all([

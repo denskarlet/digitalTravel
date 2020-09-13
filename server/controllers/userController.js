@@ -77,8 +77,8 @@ userController.findOrCreate = async (req, res, next) => {
   try {
     const { name, email, imgUrl } = res.locals.userData;
     let user = await dbFindUser(email);
-    if (!user) user = await dbCreateUser({ email, name, imgUrl });
-    res.locals.userData = user;
+    if (!user) user = await dbCreateUser({ email, name });
+    res.locals.userData = { ...user, image_url: imgUrl };
     return next();
   } catch (err) {
     return next(err);

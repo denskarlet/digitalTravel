@@ -16,8 +16,8 @@ const dbFindUser = async (email) => {
 };
 const dbCreateUser = async ({ name, email, imgUrl }) => {
   try {
-    const query = `INSERT INTO users (name, email, image_url) VALUES ($1, $2, $3) RETURNING *`;
-    const values = [name, email, imgUrl];
+    const query = `INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *`;
+    const values = [name, email];
     const { rows } = await db.query(query, values);
     return rows[0];
   } catch (err) {
