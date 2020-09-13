@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import fetchReducer, { initialState } from './fetchReducer';
-import { LOADING, RESPONSE_COMPLETE, ERROR } from '../actions/actions';
+import { LOADING, RESPONSE_COMPLETE, ERROR } from '../actions';
 
 const useFetch = (url) => {
   const [state, dispatch] = useReducer(fetchReducer, initialState);

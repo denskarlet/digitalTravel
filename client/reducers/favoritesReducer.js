@@ -1,4 +1,4 @@
-const { LOADED_DATA, ADD_FAVORITE, REMOVE_FAVORITE } = require('../actions/actions');
+const { LOADED_DATA, ADD_FAVORITE, REMOVE_FAVORITE } = require('../actions');
 
 export const initialState = [];
 

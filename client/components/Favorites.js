@@ -1,42 +1,8 @@
 import React, { useContext, useEffect, useReducer, useState } from 'react';
-import { ADD_FAVORITE, REMOVE_FAVORITE, LOADED_DATA } from '../actions/actions';
+import { getFavs, addFav } from '../actions';
 import useThunkReducer from '../util/useThunkReducer';
 import favoritesReducer, { initialState } from '../reducers/favoritesReducer';
 import Favorite from './Favorite';
-
-const addFav = (query, userId) => {
-  console.log({ query, userId });
-  const send = {
-    city: query.city_name,
-    country: query.country_name,
-    lng: query.lng,
-    lat: query.lat,
-    user_id: userId,
-  };
-  return (dispatch) => {
-    fetch(`/api/favorites`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(send),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch({ type: ADD_FAVORITE, payload: { data } });
-      })
-      .catch((err) => console.log(err));
-  };
-};
-
-const getFavs = (id) => {
-  return (dispatch) => {
-    fetch(`/api/favorites/${id}`)
-      .then((res) => res.json())
-      .then((data) => {
-        dispatch({ type: LOADED_DATA, payload: data });
-      })
-      .catch((err) => console.log(err));
-  };
-};
 
 const isSelected = (favs, current) => {
   const { city_name, country_name } = current;
@@ -55,7 +21,7 @@ const Favorites = ({ setQuery, query, id }) => {
 
   useEffect(() => {
     dispatch(getFavs(id));
-  }, []);
+  }, [dispatch, id]);
 
   useEffect(() => {
     if (!query) return;

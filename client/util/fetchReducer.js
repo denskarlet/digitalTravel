@@ -1,4 +1,4 @@
-const { ERROR, LOADING, RESPONSE_COMPLETE } = require('../actions/actions');
+const { ERROR, LOADING, RESPONSE_COMPLETE } = require('../actions');
 
 export const initialState = {
   error: null,

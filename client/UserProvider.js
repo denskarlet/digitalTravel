@@ -4,7 +4,6 @@ import useFetch from './util/useFetch';
 import UserContext from './contexts/UserContext';
 
 const UserProvider = ({ children }) => {
-  console.log({ children });
   const [isLogged, setIsLogged] = useState(!!Cookies.get('token'));
   const [userData, isLoading, error] = useFetch('/api/user');
   if (isLoading) return <h1>Loading...</h1>;

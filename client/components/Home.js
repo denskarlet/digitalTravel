@@ -9,7 +9,6 @@ import Input from './Input';
 const Home = () => {
   const { userData } = useContext(UserContext);
   const [query, setQuery] = useState(null);
-
   return (
     <div>
       <>
