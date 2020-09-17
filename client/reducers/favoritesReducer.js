@@ -1,8 +1,6 @@
 const { LOADED_DATA, ADD_FAVORITE, REMOVE_FAVORITE } = require('../actions');
 
-export const initialState = [];
-
-const favoritesReducer = (state, { type, payload }) => {
+const favoritesReducer = (state = [], { type, payload }) => {
   if (type === LOADED_DATA) return payload;
 
   if (type === ADD_FAVORITE) return [payload.data, ...state];
