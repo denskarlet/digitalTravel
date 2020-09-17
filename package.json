@@ -29,7 +29,7 @@
     "node-fetch": "^2.6.0",
     "path": "^0.12.7",
     "pg": "^8.3.0",
-    "query-string": "^6.13.1",
+    "query-string": "^6.13.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-places-autocomplete": "^7.3.0",
