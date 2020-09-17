@@ -1,8 +1,6 @@
-import React, { useState, useContext, useReducer, useEffect } from 'react';
-import { Redirect } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
 import Window from './Window';
 import Favorites from './Favorites';
-import favoritesReducer, { initialState } from '../reducers/favoritesReducer';
 import UserContext from '../contexts/UserContext';
 import Input from './Input';
 

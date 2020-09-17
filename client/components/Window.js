@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import queryString from 'query-string';
+
 import Spotify from './Spotify';
 import Weather from './Weather';
 import Country from './Country';
