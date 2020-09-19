@@ -11,7 +11,6 @@ const Favorites = ({ setQuery, query, id }) => {
   useEffect(() => {
     dispatch(getFavs(id));
   }, [dispatch, id]);
-
   const favsToRender = favorites.map((elem, i) => (
     <Favorite id={id} key={elem.favorite_id} data={elem} dispatch={dispatch} setQuery={setQuery} />
   ));
