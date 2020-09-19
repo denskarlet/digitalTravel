@@ -1,7 +1,12 @@
 const express = require('express');
+const { query, check } = require('express-validator');
+
 const locationController = require('../controllers/locationController');
 const userController = require('../controllers/userController');
+const validatorController = require('../controllers/validatorController');
+
 const { getFavorites } = require('../controllers/userController');
+const { firstLetterToUpper } = require('../helpers');
 
 const router = express.Router();
 
@@ -32,8 +37,16 @@ router.get(
 router.get('/verify', userController.verify, (req, res) => {
   res.sendStatus(200);
 });
+
 router.get(
   '/location',
+  [
+    query('city').exists().customSanitizer(firstLetterToUpper),
+    query('country').exists().customSanitizer(firstLetterToUpper),
+    query('lat').exists(),
+    query('lng').exists(),
+  ],
+  validatorController.checkValidation,
   userController.verify,
   locationController.getLocationData,
   locationController.parseData,
