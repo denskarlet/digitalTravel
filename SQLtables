@@ -6,13 +6,13 @@ DROP TABLE favorites;
 CREATE TABLE users (
   user_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
   name varchar(1024),
-  email varchar(1024),
+  email varchar(1024)
 );
 
 CREATE TABLE locations (
   location_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(), 
-  country_name varchar(1024),
-  city_name varchar(1024),
+  country varchar(1024),
+  city varchar(1024),
   lat varchar(1024) NOT NULL,
   lng varchar(1024) NOT NULL
 );
