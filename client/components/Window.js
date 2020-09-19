@@ -7,6 +7,7 @@ import Country from './Country';
 import useFetch from '../util/useFetch';
 
 const Window = ({ query }) => {
+  // fix camel / snake case!
   const urlParams = queryString.stringify(query);
   const [data, isLoading, error] = useFetch(`api/location?${urlParams}`);
   if (isLoading) return <div>Loading...</div>;

@@ -3,7 +3,6 @@ import { removeFav } from '../actions';
 
 const Favorite = ({ data, dispatch, setQuery }) => {
   const { favorite_id } = data;
-  console.log({ data });
   const handleRemove = useCallback(() => dispatch(removeFav(favorite_id)), [favorite_id, dispatch]);
   return (
     <>

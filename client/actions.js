@@ -19,8 +19,8 @@ export const removeFav = (id) => {
 };
 export const addFav = (query, userId) => {
   const send = {
-    city: query.city_name,
-    country: query.country_name,
+    city: query.city,
+    country: query.country,
     lng: query.lng,
     lat: query.lat,
     user_id: userId,

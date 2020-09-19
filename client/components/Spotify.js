@@ -10,7 +10,7 @@ const Spotify = ({ data }) => {
       <iframe
         title="player"
         src={`https://open.spotify.com/embed/playlist/${url[url.length - 2]}`}
-        width="300"
+        width="150"
         height="170"
         frameBorder="0"
         onLoad={() => {
