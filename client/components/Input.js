@@ -5,9 +5,9 @@ const normalize = async (string) => {
   const result = await geocodeByAddress(string);
   const { lat, lng } = await getLatLng(result[0]);
   const arr = string.split(',');
-  const city_name = arr.shift();
-  const country_name = arr.pop().trim();
-  return { city_name, country_name, lat, lng };
+  const city = arr.shift();
+  const country = arr.pop().trim();
+  return { city, country, lat, lng };
 };
 const Input = ({ setQuery }) => {
   const [location, setLocation] = useState('');

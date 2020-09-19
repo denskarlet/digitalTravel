@@ -7,14 +7,10 @@ import Country from './Country';
 import useFetch from '../util/useFetch';
 
 const Window = ({ query }) => {
-  const { lat, lng, city_name, country_name } = query;
-
-  const url = `lat=${lat}&lng=${lng}&city=${city_name}&country=${country_name}`;
-
-  const [data, isLoading, error] = useFetch(`api/location?${url}`);
+  const urlParams = queryString.stringify(query);
+  const [data, isLoading, error] = useFetch(`api/location?${urlParams}`);
   if (isLoading) return <div>Loading...</div>;
   const { playlist, countryInfo, weatherInfo } = data;
-
   return (
     <div>
       hello
