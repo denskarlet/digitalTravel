@@ -88,6 +88,10 @@ const parseCountryResponse = (obj) => {
     borders,
   };
 };
+const firstLetterToUpper = (string) => {
+  if (string) return string.slice(0, 1).toUpperCase().concat(string.slice(1));
+  return null;
+};
 module.exports = {
   parseCountryResponse,
   parseSpotifyResponse,
@@ -95,4 +99,5 @@ module.exports = {
   fetchCountryApi,
   fetchSpotifyApi,
   fetchWeatherApi,
+  firstLetterToUpper,
 };
