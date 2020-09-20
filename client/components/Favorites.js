@@ -3,7 +3,7 @@ import { getFavs, addFav } from '../actions';
 import { useThunkReducer } from '../util';
 import favoritesReducer from '../reducers';
 import Favorite from './Favorite';
-import useIsFavorite from './customHooks';
+import { useIsFavorite } from './customHooks';
 
 const Favorites = ({ setQuery, query, id }) => {
   const [favorites, dispatch] = useThunkReducer(favoritesReducer, []);

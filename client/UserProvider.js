@@ -3,7 +3,7 @@ import { ClipLoader } from 'react-spinners';
 import Cookies from 'js-cookie';
 import useFetch from './util/useFetch';
 import UserContext from './contexts/UserContext';
-import useLocation from './components/customHooks';
+import { useLocation } from './components/customHooks';
 
 const UserProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(!!Cookies.get('token'));
