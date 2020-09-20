@@ -8,7 +8,9 @@ const useFetch = (url) => {
     dispatch({ type: LOADING });
     fetch(url)
       .then((res) => res.json())
-      .then((data) => dispatch({ type: RESPONSE_COMPLETE, payload: { data } }))
+      .then((data) => {
+        setTimeout(() => dispatch({ type: RESPONSE_COMPLETE, payload: { data } }), 500);
+      })
       .catch((err) => dispatch({ type: ERROR, payload: { err } }));
   }, [url]);
 
