@@ -9,7 +9,11 @@ const { getFavorites } = require('../controllers/userController');
 const { firstLetterToUpper } = require('../helpers');
 
 const router = express.Router();
-
+router.get('/test', (req, res) => {
+  res
+    .status(200)
+    .json({ lat: 40.717308900000006, lng: -74.0652501, city: 'Paris', country: 'France' });
+});
 router.post(
   '/favorites',
   locationController.getLocationId,
