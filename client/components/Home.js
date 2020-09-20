@@ -3,20 +3,21 @@ import Window from './Window';
 import Favorites from './Favorites';
 import UserContext from '../contexts/UserContext';
 import Input from './Input';
+import Welcome from './Welcome';
 
 const Home = () => {
-  const { userData } = useContext(UserContext);
+  const { userData, location } = useContext(UserContext);
   const [query, setQuery] = useState(null);
   return (
-    <div>
-      <>
-        <img alt="" src={userData.image_url} />
-        <pre>{JSON.stringify(userData, null, 2)}</pre>
-      </>
-
-      <Input setQuery={setQuery} />
-      {query && <Window query={query} />}
-      <Favorites query={query} setQuery={setQuery} id={userData.user_id} />
+    <div style={{ display: 'flex' }}>
+      <div>
+        <Input setQuery={setQuery} />
+        {query && <Window query={query} />}
+      </div>
+      <div>
+        <Welcome userData={userData} />
+        <Favorites query={query} setQuery={setQuery} id={userData.user_id} />
+      </div>
     </div>
   );
 };

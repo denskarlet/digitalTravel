@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import ClipLoader from 'react-spinners/ClipLoader';
+
 import PlacesAutocomplete, { geocodeByAddress, getLatLng } from 'react-places-autocomplete';
 
 const normalize = async (string) => {
@@ -44,7 +46,6 @@ const Input = ({ setQuery }) => {
         return (
           <div>
             <input {...inputProps} />
-            {loading && <div>Loading...</div>}
             {suggestionsToRender}
           </div>
         );
