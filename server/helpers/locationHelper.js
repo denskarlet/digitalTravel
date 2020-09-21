@@ -8,7 +8,7 @@ const fetchGoogleApi = async (lat, lng) => {
   try {
     const query = `${lat},${lng}`;
     const response = await fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${query}&key=${googlePlacesKey}`
+      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${query}&key=${googlePlacesKey}&result_type=locality`
     );
     return response.json();
   } catch (err) {

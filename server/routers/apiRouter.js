@@ -15,6 +15,7 @@ router.get(
   validatorController.checkValidation,
   userController.verify,
   locationController.getCurrentGeo,
+  locationController.parseCurrentLocationData,
   (req, res) => {
     res.status(200).json(res.locals.location);
   }
@@ -58,7 +59,7 @@ router.get(
   validatorController.checkValidation,
   userController.verify,
   locationController.getLocationData,
-  locationController.parseData,
+  locationController.parseLocationData,
   (req, res) => {
     res.status(200).json({ ...res.locals.locationData });
   }

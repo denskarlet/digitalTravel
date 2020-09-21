@@ -49,7 +49,7 @@ const locationController = {
     }
   },
 
-  parseData: (req, res, next) => {
+  parseLocationData: (req, res, next) => {
     try {
       const { spotifyData, weatherData, countryData } = res.locals.locationData;
       const { country } = req.query;
@@ -65,6 +65,18 @@ const locationController = {
     } catch (err) {
       return next(err);
     }
+  },
+  parseCurrentLocationData: (req, res, next) => {
+    const geo = res.locals.location.results[0].formatted_address.split(',');
+    const city = geo.shift();
+    const country = geo.pop().trim();
+    res.locals.location = {
+      lat: req.query.lat,
+      lng: req.query.lng,
+      city,
+      country,
+    };
+    return next();
   },
 
   getLocationId: async (req, res, next) => {
