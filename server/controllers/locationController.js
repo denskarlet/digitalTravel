@@ -13,6 +13,7 @@ const {
   dbFindLocation,
   dbCreateLocation,
   MyError,
+  fetchGoogleApi,
 } = require('../helpers');
 
 const locationController = {};
@@ -32,6 +33,17 @@ locationController.getLocationData = async (req, res, next) => {
       countryData,
       spotifyData,
     };
+    return next();
+  } catch (err) {
+    return next(err);
+  }
+};
+
+locationController.getCurrentGeo = async (req, res, next) => {
+  try {
+    const { lat, lng } = req.query;
+    const googleLocation = await fetchGoogleApi(lat, lng);
+    res.locals.location = googleLocation;
     return next();
   } catch (err) {
     return next(err);
