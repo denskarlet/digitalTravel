@@ -5,11 +5,8 @@ const MyError = require('./myError');
 const { googlePlacesKey } = require('../../secret');
 
 const fetchGoogleApi = async (lat, lng) => {
-  console.log(lat, lng);
   try {
     const query = `${lat},${lng}`;
-
-    console.log({ query });
     const response = await fetch(
       `https://maps.googleapis.com/maps/api/geocode/json?latlng=${query}&key=${googlePlacesKey}`
     );
