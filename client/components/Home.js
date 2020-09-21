@@ -10,12 +10,13 @@ import { useLocation } from './customHooks';
 const Home = () => {
   const { userData, location } = useContext(UserContext);
   const [query, setQuery] = useState(null);
-  const [currentData, loading, error] = useFetch('/api/test');
-
+  const lat = location.latitude;
+  const lng = location.longitude;
+  const [currentData, loading, error] = useFetch(`/api/currentlocation?lat=${lat}&lng=${lng}`);
   useEffect(() => {
     setQuery(currentData);
   }, [currentData]);
-
+  // current data is now just a huge JSON object that needs  to be parsed on the backend before being sent back
   return (
     <div style={{ display: 'flex' }}>
       <div>
