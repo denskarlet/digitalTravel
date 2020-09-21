@@ -9,11 +9,16 @@ const { getFavorites } = require('../controllers/userController');
 const { firstLetterToUpper } = require('../helpers');
 
 const router = express.Router();
-router.get('/test', (req, res) => {
-  res
-    .status(200)
-    .json({ lat: 40.717308900000006, lng: -74.0652501, city: 'Paris', country: 'France' });
-});
+router.get(
+  '/currentlocation',
+  [query('lat').exists(), query('lng').exists()],
+  validatorController.checkValidation,
+  userController.verify,
+  locationController.getCurrentGeo,
+  (req, res) => {
+    res.status(200).json(res.locals.location);
+  }
+);
 router.post(
   '/favorites',
   locationController.getLocationId,
