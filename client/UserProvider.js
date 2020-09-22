@@ -9,8 +9,7 @@ const UserProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(!!Cookies.get('token'));
   const [userData, isLoading, error] = useFetch('/api/user');
   const location = useLocation();
-
-  if ((isLoading && isLogged) || !location) return <ClipLoader color="red" />;
+  if (isLoading && isLogged) return <ClipLoader color="red" />;
   return (
     <UserContext.Provider value={{ isLogged, userData, isLoading, location }}>
       {children}

@@ -8,7 +8,6 @@ import useFetch from '../util/useFetch';
 
 const Window = ({ query }) => {
   const urlParams = queryString.stringify(query);
-  console.log({ query });
   const [data, isLoading, error] = useFetch(`api/location?${urlParams}`);
   if (isLoading) return <ClipLoader />;
   const { playlist, countryInfo, weatherInfo } = data;
