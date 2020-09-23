@@ -9,7 +9,6 @@ import { useLocation } from './customHooks';
 
 const Home = () => {
   const { userData, location } = useContext(UserContext);
-  console.log({ location });
   const [query, setQuery] = useState(null);
   return (
     <div style={{ display: 'flex' }}>

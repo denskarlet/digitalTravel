@@ -7,6 +7,7 @@ const validatorController = require('../controllers/validatorController');
 
 const { getFavorites } = require('../controllers/userController');
 const { firstLetterToUpper } = require('../helpers');
+const db = require('../db');
 
 const router = express.Router();
 router.get(
