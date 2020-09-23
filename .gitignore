@@ -1,6 +1,4 @@
 node_modules
 build
-bundle.js
-db.js
 *.zip
 secret.js
