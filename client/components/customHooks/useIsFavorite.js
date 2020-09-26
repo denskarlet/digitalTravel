@@ -1,14 +1,21 @@
 import { useEffect, useState } from 'react';
 
 const useIsFavorite = (current, favorites) => {
-  const [selected, setSelected] = useState(false);
+  const [favId, setFavId] = useState(null);
   useEffect(() => {
     if (!current || !favorites) return;
     const { city, country } = current;
-    const found = favorites.some((elem) => elem.city === city && elem.country === country);
-    setSelected(found);
+    let id = null;
+    for (let i = 0; i < favorites.length; i++) {
+      const fav = favorites[i];
+      if (fav.city === city && fav.country === country) {
+        id = fav.favorite_id;
+        break;
+      }
+    }
+    setFavId(id);
   }, [current, favorites]);
-  return [selected];
+  return favId;
 };
 
 export default useIsFavorite;
