@@ -11,14 +11,14 @@ const Home = () => {
   const { userData, location } = useContext(UserContext);
   const [query, setQuery] = useState(null);
   return (
-    <div style={{ display: 'flex' }}>
+    <div>
       <div>
         <Input setQuery={setQuery} />
         {(location || query) && <Window query={query || location} />}
       </div>
       <div>
         <Welcome userData={userData} />
-        <Favorites query={query} setQuery={setQuery} id={userData.user_id} />
+        <Favorites query={query} setQuery={setQuery} userId={userData.user_id} />
       </div>
     </div>
   );

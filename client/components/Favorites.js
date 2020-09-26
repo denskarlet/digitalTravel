@@ -1,35 +1,33 @@
 import React, { useEffect } from 'react';
-import { getFavs, addFav } from '../actions';
+import { getFavs, addFav, removeFav } from '../actions';
 import { useThunkReducer } from '../util';
 import favoritesReducer from '../reducers';
 import Favorite from './Favorite';
+import Star from './Star';
 import { useIsFavorite } from './customHooks';
 
-const Favorites = ({ setQuery, query, id }) => {
+const Favorites = ({ setQuery, query, userId }) => {
   const [favorites, dispatch] = useThunkReducer(favoritesReducer, []);
-  const [isFav, setIsFav] = useIsFavorite(query, favorites);
+  const favId = useIsFavorite(query, favorites);
+
   useEffect(() => {
-    dispatch(getFavs(id));
-  }, [dispatch, id]);
+    dispatch(getFavs(userId));
+  }, [dispatch, userId]);
+
+  const toggleFav = () => {
+    if (favId) return dispatch(removeFav(favId));
+    return dispatch(addFav(query, userId));
+  };
+
   const favsToRender = favorites.map((elem, i) => (
-    <Favorite id={id} key={elem.favorite_id} data={elem} dispatch={dispatch} setQuery={setQuery} />
+    <Favorite key={elem.favorite_id} data={elem} dispatch={dispatch} setQuery={setQuery} />
   ));
+
   return (
     <div>
       {query && (
         <>
-          <h1>
-            IS FAV:
-            {JSON.stringify(isFav)}
-          </h1>
-          <button
-            type="button"
-            onClick={() => {
-              dispatch(addFav(query, id));
-            }}
-          >
-            Add to fav
-          </button>
+          <Star favId={favId} toggle={toggleFav} />
         </>
       )}
       {favsToRender}
