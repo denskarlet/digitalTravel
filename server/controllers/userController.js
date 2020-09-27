@@ -11,7 +11,6 @@ const {
   dbAddFavorite,
   dbRemoveFavorite,
   spotifyAuthorize,
-  setJswCookie,
   calculateExpiration,
   spotifyGetRefreshToken,
 } = require('../helpers');
