@@ -5,13 +5,21 @@ import spotifyIcon from '@iconify/icons-mdi/spotify';
 import { Redirect } from 'react-router-dom';
 import UserContext from '../contexts/UserContext';
 
+const Logo = styled.h1`
+  font-size: 4em;
+  font-family: 'Ubuntu', sans-serif;
+  color: green;
+`;
 const Div = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 12%;
+  margin-top: 8em;
+  height: 80%;
 `;
 const Button = styled.button`
+  font-family: 'Montserrat', sans-serif;
+
   border: 1px solid black;
   border-radius: 2em;
   background-color: green;
@@ -23,9 +31,21 @@ const Button = styled.button`
     cursor: pointer;
   }
 `;
-const Span = styled.span`
+const Subdiv = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-top: 10rem;
+  align-self: center;
   color: red;
-  margin-top: 10em;
+`;
+const SpanCenter = styled.span`
+  text-align: center;
+  color: red;
+  font-family: 'Montserrat', sans-serif;
+`;
+const Div2 = styled.div`
+  font-family: 'Montserrat', sans-serif;
 `;
 
 const Login = () => {
@@ -36,12 +56,21 @@ const Login = () => {
   };
   return (
     <Div>
-      <h1>Digital Trip</h1>
+      <Logo>Digital Trip</Logo>
+      <Div2>Your virtual getaway.</Div2>
       <Icon icon={spotifyIcon} color="green" width="100" height="100" />
       <Button type="button" onClick={handleClick}>
         Log in with Spotify
       </Button>
-      <Span> For the best experience, you must have Spotify account.</Span>
+      <Subdiv>
+        {' '}
+        <SpanCenter>
+          {' '}
+          Please use desktop and allow location access for the best experience.
+        </SpanCenter>
+        <br />
+        <SpanCenter>You must have spotify account to use the website.</SpanCenter>
+      </Subdiv>
     </Div>
   );
 };

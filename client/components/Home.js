@@ -11,7 +11,7 @@ const Home = () => {
   const { userData, location } = useContext(UserContext);
   const [query, setQuery] = useState(null);
   return (
-    <div>
+    <div style={{ display: 'flex' }}>
       <div>
         <Input setQuery={setQuery} />
         {(location || query) && <Window query={query || location} />}
