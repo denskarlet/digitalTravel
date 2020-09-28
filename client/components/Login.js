@@ -8,27 +8,35 @@ import UserContext from '../contexts/UserContext';
 const Logo = styled.h1`
   font-size: 4em;
   font-family: 'Ubuntu', sans-serif;
-  color: green;
+  color: #f44336;
+  margin: 1em 0px 0.25em 0px;
 `;
+
 const Div = styled.div`
+  color: #f44336;
+  background-image: url('../assets/background.png');
+  background-size: 100%;
+  background-repeat: repeat-y;
+  background-color: #f44336;
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 8em;
-  height: 80%;
+  padding: 1em;
+  // height: 100%;
 `;
 const Button = styled.button`
   font-family: 'Montserrat', sans-serif;
-
-  border: 1px solid black;
+  border: 0px solid black;
   border-radius: 2em;
-  background-color: green;
+  background-color: #f44336;
   padding: 0.5em;
   font-size: 15px;
   width: 15em;
+  margin-top: 0.5em;
   &:hover {
     color: white;
     cursor: pointer;
+    background-color: #00701a;
   }
 `;
 const Subdiv = styled.div`
@@ -37,14 +45,14 @@ const Subdiv = styled.div`
   justify-content: center;
   padding-top: 10rem;
   align-self: center;
-  color: red;
 `;
 const SpanCenter = styled.span`
   text-align: center;
-  color: red;
+
   font-family: 'Montserrat', sans-serif;
 `;
 const Div2 = styled.div`
+  margin-bottom: 1em;
   font-family: 'Montserrat', sans-serif;
 `;
 
@@ -57,8 +65,10 @@ const Login = () => {
   return (
     <Div>
       <Logo>Digital Trip</Logo>
-      <Div2>Your virtual getaway.</Div2>
-      <Icon icon={spotifyIcon} color="green" width="100" height="100" />
+      <Div2>
+        Your virtual getaway. Listen to local music, enjoy the weather, learn the culture.
+      </Div2>
+      <Icon icon={spotifyIcon} color="#43a047" width="100" height="100" />
       <Button type="button" onClick={handleClick}>
         Log in with Spotify
       </Button>
@@ -71,6 +81,8 @@ const Login = () => {
         <br />
         <SpanCenter>You must have spotify account to use the website.</SpanCenter>
       </Subdiv>
+      <Subdiv>ASdjkashdknaskofadkf jafkhfjaf jafkaskf ajkf</Subdiv>
+      <Subdiv>pajklfsjafkaj jfakjfa jfkaj kajkflj kla</Subdiv>
     </Div>
   );
 };
