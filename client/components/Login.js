@@ -80,8 +80,6 @@ const Login = () => {
         <br />
         <SpanCenter>You must have spotify account to use the website.</SpanCenter>
       </Subdiv>
-      <Subdiv>ASdjkashdknaskofadkf jafkhfjaf jafkaskf ajkf</Subdiv>
-      <Subdiv>pajklfsjafkaj jfakjfa jfkaj kajkflj kla</Subdiv>
     </Div>
   );
 };
