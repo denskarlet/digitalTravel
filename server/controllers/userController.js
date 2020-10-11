@@ -66,7 +66,7 @@ const userController = {
       if (err.name === 'TokenExpiredError') {
         return userController.refreshToken(req, res, next);
       }
-      return res.sendStatus(403);
+      return res.status(403).json('Forbidden');
     }
   },
 

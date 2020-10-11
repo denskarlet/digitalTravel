@@ -25,8 +25,7 @@ if (process.env.NODE_ENV === 'production') {
 
 app.use((err, req, res, next) => {
   console.log(`MIDDLEWARE ERROR: ${err}`);
-
-  res.status(err.status || 500).send(JSON.stringify(err.myMessage || 'Internal Server Error'));
+  res.status(err.status || 500).json(err.myMessage || 'Internal Server Error');
 });
 
 module.exports = app.listen(PORT, () => console.log(`listening on port ${PORT}`));
