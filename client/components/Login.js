@@ -15,8 +15,8 @@ const Logo = styled.h1`
 const Div = styled.div`
   color: #f44336;
   background-image: url('../assets/background.png');
-  background-size: 105%;
-  height: 100%;
+  background-size: 100%;
+  height: 95%;
   background-repeat: repeat-y;
   background-color: #f44336;
   display: flex;
@@ -36,15 +36,21 @@ const Button = styled.button`
   &:hover {
     color: white;
     cursor: pointer;
+    background-color: #43a047;
+  }
+  &:focus {
+    outline: 0px;
+  }
+  &:active {
     background-color: #00701a;
+    transform: translateY(1px);
   }
 `;
 const Subdiv = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  padding-top: 10rem;
-  align-self: center;
+  margin-top: auto;
 `;
 const SpanCenter = styled.span`
   text-align: center;

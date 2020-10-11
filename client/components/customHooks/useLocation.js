@@ -14,7 +14,6 @@ const useLocation = () => {
           .catch((err) => console.log(err));
       },
       (error) => {
-        console.log(error);
         setLocation(false);
       }
     );
