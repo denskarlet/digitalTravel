@@ -11,9 +11,8 @@ const useFetch = (url) => {
       .then((data) => {
         setTimeout(() => dispatch({ type: RESPONSE_COMPLETE, payload: { data } }), 500);
       })
-      .catch((err) => dispatch({ type: ERROR, payload: { err } }));
+      .catch((error) => dispatch({ type: ERROR, payload: { error } }));
   }, [url]);
-
   const { response, loading, error } = state;
   return [response, loading, error];
 };
