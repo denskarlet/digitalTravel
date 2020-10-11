@@ -15,7 +15,8 @@ const Logo = styled.h1`
 const Div = styled.div`
   color: #f44336;
   background-image: url('../assets/background.png');
-  background-size: 100%;
+  background-size: 105%;
+  height: 100%;
   background-repeat: repeat-y;
   background-color: #f44336;
   display: flex;
