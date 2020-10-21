@@ -5,6 +5,10 @@ export const LOADED_DATA = 'LOADED_DATA';
 export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
 
+const removeFavorite = (data) => ({ type: REMOVE_FAVORITE, payload: { data } });
+const addFavorite = (data) => ({ type: ADD_FAVORITE, payload: { data } });
+const loadFavorites = (data) => ({ type: LOADED_DATA, payload: data });
+
 export const removeFav = (id) => {
   return (dispatch) => {
     fetch(`/api/favorites/${id}`, {
@@ -12,7 +16,7 @@ export const removeFav = (id) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        dispatch({ type: REMOVE_FAVORITE, payload: { data } });
+        dispatch(removeFavorite(data));
       })
       .catch((err) => console.log(err));
   };
@@ -33,7 +37,7 @@ export const addFav = (query, userId) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        dispatch({ type: ADD_FAVORITE, payload: { data } });
+        dispatch(addFavorite(data));
       })
       .catch((err) => console.log(err));
   };
@@ -43,7 +47,7 @@ export const getFavs = (id) => (dispatch) => {
   fetch(`/api/favorites/${id}`)
     .then((res) => res.json())
     .then((data) => {
-      dispatch({ type: LOADED_DATA, payload: data });
+      dispatch(loadFavorites(data));
     })
     .catch((err) => console.log(err));
 };
