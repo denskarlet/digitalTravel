@@ -5,6 +5,7 @@ import Login from './Login';
 import NotFound from './NotFound';
 import PrivateRoute from '../util/ProtectedRoute';
 import UserProvider from '../UserProvider';
+import UserContext from '../contexts/UserContext';
 
 const App = () => {
   return (

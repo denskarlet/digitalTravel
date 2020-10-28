@@ -63,7 +63,8 @@ const Div2 = styled.div`
 `;
 
 const Login = () => {
-  const { isLogged } = useContext(UserContext);
+  const isLogged = JSON.parse(window.localStorage.getItem('user'));
+  console.log({ isLogged });
   if (isLogged) return <Redirect to="/" />;
   const handleClick = () => {
     window.location.assign('/api/authenticate');

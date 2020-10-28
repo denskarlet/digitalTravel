@@ -7,7 +7,12 @@ const useFetch = (url) => {
   useEffect(() => {
     dispatch({ type: LOADING });
     fetch(url)
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.status < 200 || res.status >= 300) {
+          throw new Error(res.statusText);
+        }
+        return res.json();
+      })
       .then((data) => {
         setTimeout(() => dispatch({ type: RESPONSE_COMPLETE, payload: { data } }), 500);
       })
