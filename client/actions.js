@@ -8,7 +8,6 @@ export const REMOVE_FAVORITE = 'REMOVE_FAVORITE';
 const removeFavorite = (data) => ({ type: REMOVE_FAVORITE, payload: { data } });
 const addFavorite = (data) => ({ type: ADD_FAVORITE, payload: { data } });
 const loadFavorites = (data) => ({ type: LOADED_DATA, payload: data });
-
 export const removeFav = (id) => {
   return (dispatch) => {
     fetch(`/api/favorites/${id}`, {

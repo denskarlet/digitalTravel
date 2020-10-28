@@ -17,4 +17,4 @@ const Favorite = ({ data, dispatch, setQuery }) => {
   );
 };
 
-export default Favorite;
+export default React.memo(Favorite);

@@ -14,8 +14,10 @@ const useLocation = () => {
           .catch((err) => console.log(err));
       },
       (error) => {
+        console.log({ error });
         setLocation(false);
-      }
+      },
+      { timeout: 5000 }
     );
   }, []);
   return location;
